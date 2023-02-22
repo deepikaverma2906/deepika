@@ -7,6 +7,7 @@ const { Dog,AnalyticsLog } = require("./models");
 
 const app = express();
 
+
 //New imports
 const http = require('http').Server(app);
 //Pass the Express app into the HTTP module.
@@ -14,7 +15,7 @@ const socketIO = require('socket.io')(http);
 
 const base_api_url = '/api/v1'
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use('/static',express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine','ejs')
 
@@ -102,9 +103,25 @@ app.delete(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
   return res.status(200).json(deletedLog);
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/index.html"));
+app.get("/live", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/live.html"));
 });
+
+app.get("/search", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/search.html"));
+});
+
+app.get("/logout", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/logout.html"));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "views/login.html"));
+});
+
+
+
+
 
 const start = async () => {
   try {
@@ -112,6 +129,7 @@ const start = async () => {
       "mongodb://mongoadmin:secret@localhost:27017/mongoose?authSource=admin"
     );
     http.listen(3000, () => console.log("Server started on port 3000"));
+    console.log(path.join(__dirname, "public"))
   } catch (error) {
     console.error(error);
     process.exit(1);
