@@ -1,5 +1,6 @@
 
 const express = require("express");
+let dotenv = require('dotenv').config()
 const mongoose = require("mongoose");
 mongoose.set('strictQuery', false);
 const { SocketAddress } = require("net");
@@ -101,12 +102,6 @@ app.delete(`${base_api_url}/dogs/:id`, async (req, res) => {
   return res.status(200).json(deletedDog);
 });
 
-
-// app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
-//   const allLogs = await AnalyticsLog.find();
-//   return res.status(200).json(allLogs);
-// });
-
 app.get(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
   const { id } = req.params;
   const log = await AnalyticsLog.findById(id);
@@ -180,17 +175,12 @@ app.get("/login", (req, res) => {
   return res.render('login');
 });
 
-
-
-
-
-
 const start = async () => {
   try {
     await mongoose.connect(
-      "mongodb://localhost:27017/Alerts"
+     process.env.MONGO_CONNECTION_STRING
     );
-    http.listen(3000, () => console.log("Server started on port 3000"));
+    http.listen(process.env.APP_PORT | 3000, () => console.log(`Server started on port ${process.env.APP_PORT}`));
     console.log(path.join(__dirname, "public"))
   } catch (error) {
     console.error(error);
