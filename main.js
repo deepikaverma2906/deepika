@@ -1,6 +1,7 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+mongoose.set('strictQuery', false);
 const { SocketAddress } = require("net");
 const path = require('path');
 const { Dog,AnalyticsLog } = require("./models");
@@ -8,12 +9,20 @@ const { Dog,AnalyticsLog } = require("./models");
 const app = express();
 
 
+const users = [
+    { id: 1, username: 'admin', password: 'admin@123' },
+    { id: 2, username: 'admin2', password: 'strongpasswordEverywhere' }
+];
+
+
+
+
 //New imports
 const http = require('http').Server(app);
 //Pass the Express app into the HTTP module.
 const socketIO = require('socket.io')(http);
 
-const base_api_url = '/api/v1'
+const base_api_url = '/api/v1';
 app.use(express.json());
 app.use('/static',express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
@@ -44,6 +53,29 @@ app.get(`${base_api_url}/dogs`, async (req, res) => {
   return res.status(200).json(allDogs);
 });
 
+
+app.post(`${base_api_url}/login`, (req, res) => {
+    const { username, password } = req.body;
+
+    // Find user by username
+    const user = users.find(u => u.username === username);
+
+    if (!user) {
+        // User not found
+        res.status(401).json({ error: 'Invalid username or password' });
+        return;
+    }
+
+    // Check password
+    if (user.password !== password) {
+        // Incorrect password
+        res.status(401).json({ error: 'Invalid username or password' });
+        return;
+    }
+
+    // Login successful
+    res.json({ message: 'Login successful', user });
+});
 app.get(`${base_api_url}/dogs/:id`, async (req, res) => {
   const { id } = req.params;
   const dog = await Dog.findById(id);
@@ -70,16 +102,41 @@ app.delete(`${base_api_url}/dogs/:id`, async (req, res) => {
 });
 
 
-app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
-  const allLogs = await AnalyticsLog.find();
-  return res.status(200).json(allLogs);
-});
+// app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
+//   const allLogs = await AnalyticsLog.find();
+//   return res.status(200).json(allLogs);
+// });
 
 app.get(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
   const { id } = req.params;
   const log = await AnalyticsLog.findById(id);
   return res.status(200).json(log);
 });
+
+app.get('/', (req, res) => {
+    res.redirect('/login');
+});
+
+app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
+  // const { id } = req.params;
+
+  const {analytics, cameraname , from_date , to_date } = req.query
+
+  const query = {};
+
+    if (analytics) query.analytics = analytics;
+    if (cameraname) query.CameraName = cameraname;
+    if (from_date && to_date) query.timestamp ={
+        $gte:from_date,
+        $lte:to_date
+      }
+    
+    console.log(query)
+
+    const log = await AnalyticsLog.find(query);
+
+  return res.status(200).json(log);
+})
 
 app.post(`${base_api_url}/analytics/logs`, async (req, res) => {
   const newLog = new AnalyticsLog({ ...req.body });
@@ -104,20 +161,25 @@ app.delete(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
 });
 
 app.get("/live", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/live.html"));
+  // res.sendFile(path.join(__dirname, "views/live.ejs"));
+  return res.render('live');
 });
 
 app.get("/search", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/search.html"));
+  //  return res.sendFile(path.join(__dirname, "search"));
+   return res.render('search');
 });
 
 app.get("/logout", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/logout.html"));
+    // return res.sendFile(path.join(__dirname, "logout"));
+    return res.render('logout');
 });
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/login.html"));
+  // return res.sendFile(path.join(__dirname, "login"));
+  return res.render('login');
 });
+
 
 
 
@@ -126,7 +188,7 @@ app.get("/login", (req, res) => {
 const start = async () => {
   try {
     await mongoose.connect(
-      "mongodb://mongoadmin:secret@localhost:27017/mongoose?authSource=admin"
+      "mongodb://localhost:27017/Alerts"
     );
     http.listen(3000, () => console.log("Server started on port 3000"));
     console.log(path.join(__dirname, "public"))

@@ -1,0 +1,32 @@
+.btn-primary {
+           background-color: #1ca7ac;
+           border: 1px solid #000;
+           
+        }
+.btn-primary:hover {
+           background-color: #015659;
+           
+        }
+
+        .text-primary {
+           background-color: #1ca7ac;
+           color:#fff !important;
+           border-radius: 25px;
+           padding: 2px;
+
+
+        }
+
+
+ body{
+  background-image: url('/static/images/loginbg.webp');
+
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+ }
+
+ .login-card{
+
+  background-color: #ffffff88;
+  box-shadow: 10px 18px 10px #01565983 ;
+ }

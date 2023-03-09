@@ -1,0 +1,78 @@
+<%- include('components/head'); -%>
+  <body >
+    
+
+    <%- include('components/nav'); -%>
+
+
+
+
+<!-- nav bar end -->
+<div class="container  mt-5" style="background-color: rgba(255, 255, 255, 0.4);-webkit-backdrop-filter: blur(5px);backdrop-filter: blur(5px);">
+  <h2 >Live Alerts </h2>
+  <h6 class="border-info p-2">This is the live/Realtime Dashboard.
+          the logs presented here is persistent in database.
+          if you are looking for older logs please switch to the logs tab</h6>
+    <div id="live-comp" class='container'>
+        
+     
+    </div>
+
+</div>
+<%- include('components/scripts'); -%>
+</body>
+<script>
+  loggedIN=localStorage.getItem('ISLOGGEDIN')
+  if (loggedIN!='true'){
+    window.location.href = '/login';
+    
+  }
+
+  const socket = io();
+socket.on('connection',(data)=>{
+  console.log("server Connected")
+  console.log(data)
+})
+
+socket.on('log_inserted', (data) => {
+
+  
+  element=document.getElementById("live-comp");
+    
+    let beforeText = element.innerHTML
+
+  element.innerHTML +=""+   
+         "<div class='alert alert-primary' role='alert'>"+
+         "<div class='row' style='color:#000'>"+
+         "<div class='col-md-2'>"+
+         "<img src='"+data.ImageURL+"' width='200px' alt='alert-image' >" +
+      "</div>"+
+     "<div class='col-md-8'>"+
+        "<table>"+
+          "<tr>"+
+            "<th>timestamp</th>"+
+            "<td>"+data.timestamp+" </td>"+
+         "</tr>"+
+         " <tr>"+
+            "<th>camera name</th>"+
+            "<td>"+data.CameraName+"</td>"+
+         " </tr>"+
+          "<tr>"+
+            "<th>location</th>"+
+            "<td>"+data.location+"</td>"+
+          "</tr>"+
+         " <tr>"+
+            "<th>analytics</th>"+
+           " <td>"+data.analytics+"</td>"+
+          "</tr>"+
+             "<tr>"+
+            "<th>videourl</th>"+
+            "<td><a href='"+data.VideoURL+"'>video.mp4</a></td>"+
+          "</tr>"+
+        "</table>"+
+        "</div>"+
+        "  </div>"+
+        " </div>"
+});
+  </script>
+</html>
