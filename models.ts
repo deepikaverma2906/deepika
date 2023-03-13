@@ -1,26 +1,8 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
+ 
+import { Schema,model } from 'mongoose';
 
-const DogSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  breed: {
-    type: String,
-    required: true,
-  },
-  age: {
-    type: Number,
-    required: true,
-  },
-  isGoodBoy: {
-    type: Boolean,
-    required: false,
-    default: true,
-  },
-});
-
-const AnalyticsLogSchema = new mongoose.Schema({
+const AnalyticsLogSchema  = new Schema({
   timestamp: {
     type: Date,
     required: false,
@@ -92,7 +74,4 @@ const AnalyticsLogSchema = new mongoose.Schema({
   },
 });
 
-const Dog = mongoose.model("Dog", DogSchema);
-const AnalyticsLog = mongoose.model("AnalyticsLog",AnalyticsLogSchema)
-
-module.exports = { Dog , AnalyticsLog};
+export const AnalyticsLog = model("AnalyticsLog",AnalyticsLogSchema)

@@ -41,7 +41,7 @@ socket.on('log_inserted', (data) => {
     
     let beforeText = element.innerHTML
 
-  element.innerHTML +=""+   
+  element.innerHTML =""+   
          "<div class='alert alert-primary' role='alert'>"+
          "<div class='row' style='color:#000'>"+
          "<div class='col-md-2'>"+
@@ -72,7 +72,7 @@ socket.on('log_inserted', (data) => {
         "</table>"+
         "</div>"+
         "  </div>"+
-        " </div>"
+        " </div>" + beforeText
 });
   </script>
 </html>

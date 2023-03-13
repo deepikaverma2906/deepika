@@ -82,16 +82,7 @@
 
   <table id="api-response">
     <thead>
-      <tr>
-        <th>id</th>
-        <th>timestamp</th>
-        <th>Analytics Name</th>
-        <th>Camera Name</th>
-        <th>Customer Name</th>
-        <th> location</th>
-        <th> imageurl</th>
-
-      </tr>
+     
     </thead>
     <tbody>
     </tbody>
@@ -124,16 +115,32 @@
         .then(response => response.json())
         .then(data => {
           const tableBody = apiResponseTable.querySelector("tbody");
-          tableBody.innerHTML = "";
-          
+          const header_row = document.createElement("tr");
+          header_row.innerHTML = "<th>timestamp</th>"+
+        "<th>Analytics Name</th>"+
+        "<th>Camera Name</th>"+
+        "<th> location</th>"+
+        "<th> imageurl</th>";
+          tableBody.append(header_row)
+
 
           data.forEach(rowData => {
             const row = document.createElement("tr");
-            Object.values(rowData).forEach(value => {
+            console.log (rowData)
+           /* Object.values(rowData).forEach(value => {
               const cell = document.createElement("td");
+              console.log(value)
               cell.textContent = value;
               row.appendChild(cell);
-            });
+            }); */
+            
+            row.innerHTML = 
+                            "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
+                             "<td>"+rowData.analytics +"</td>" +
+                               "<td>"+rowData.CameraName +"</td>" +
+                                 "<td>"+rowData.location +"</td>" +
+                                   "<td>"+"<img src='"+rowData.ImageURL+"' alt='image' width='250px' >" +"</td>"
+
             tableBody.appendChild(row);
           });
         })

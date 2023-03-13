@@ -1,35 +1,43 @@
-
-const express = require("express");
+import { users } from './users';
+import express,{ Application } from "express";
 let dotenv = require('dotenv').config()
-const mongoose = require("mongoose");
-mongoose.set('strictQuery', false);
-const { SocketAddress } = require("net");
-const path = require('path');
-const { Dog,AnalyticsLog } = require("./models");
+import mongoose from "mongoose";
 
-const app = express();
+import swaggerUi from "swagger-ui-express";
 
+import path from 'path';
+import { AnalyticsLog } from "./models";
+import morgan from 'morgan';
+import router from './src/routes';
 
-const users = [
-    { id: 1, username: 'admin', password: 'admin@123' },
-    { id: 2, username: 'admin2', password: 'strongpasswordEverywhere' }
-];
+const app :Application= express();
 
 
 
-
-//New imports
 const http = require('http').Server(app);
-//Pass the Express app into the HTTP module.
+
 const socketIO = require('socket.io')(http);
 
 const base_api_url = '/api/v1';
 app.use(express.json());
+app.use(morgan("tiny"));
 app.use('/static',express.static(path.join(__dirname, "public")));
+
+app.use(router);
+
+app.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: {
+      url: "/swagger.json",
+    },
+  })
+);
 app.set("views", path.join(__dirname, "views"));
 app.set('view engine','ejs')
 
-socketIO.on("connection", (socket) => {
+socketIO.on("connection", (socket: any) => {
   console.log(`⚡: ${socket.id} user just connected`);
     socket.broadcast.emit("response", "hey please receive this");
 
@@ -39,23 +47,17 @@ socketIO.on("connection", (socket) => {
     socket.broadcast.emit("response", 'hey please receive this');
   });
 
-  socket.on("message", (data) => {
-    //sends the data to everyone except you.
-    socket.broadcast.emit("response", data);
-
-    //sends the data to everyone connected to the server
-    // socket.emit("response", data)
+  socket.on("message", () => 
+  {
+     socket.broadcast.emit("response",'hey please receive this');
   });
 });
 
 
-app.get(`${base_api_url}/dogs`, async (req, res) => {
-  const allDogs = await Dog.find();
-  return res.status(200).json(allDogs);
-});
 
 
-app.post(`${base_api_url}/login`, (req, res) => {
+
+app.post(`${base_api_url}/login`, (req: any , res:any) =>  {
     const { username, password } = req.body;
 
     // Find user by username
@@ -77,47 +79,25 @@ app.post(`${base_api_url}/login`, (req, res) => {
     // Login successful
     res.json({ message: 'Login successful', user });
 });
-app.get(`${base_api_url}/dogs/:id`, async (req, res) => {
-  const { id } = req.params;
-  const dog = await Dog.findById(id);
-  return res.status(200).json(dog);
-});
 
-app.post(`${base_api_url}/dogs`, async (req, res) => {
-  const newDog = new Dog({ ...req.body });
-  const insertedDog = await newDog.save();
-  return res.status(201).json(insertedDog);
-});
 
-app.put(`${base_api_url}/dogs/:id`, async (req, res) => {
-  const { id } = req.params;
-  await Dog.updateOne({ id }, req.body);
-  const updatedDog = await Dog.findById(id);
-  return res.status(200).json(updatedDog);
-});
 
-app.delete(`${base_api_url}/dogs/:id`, async (req, res) => {
-  const { id } = req.params;
-  const deletedDog = await Dog.findByIdAndDelete(id);
-  return res.status(200).json(deletedDog);
-});
-
-app.get(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
+app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   const { id } = req.params;
   const log = await AnalyticsLog.findById(id);
   return res.status(200).json(log);
 });
 
-app.get('/', (req, res) => {
+app.get('/', (req: any, res: { redirect: (arg0: string) => void; }) => {
     res.redirect('/login');
 });
 
-app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
-  // const { id } = req.params;
+app.get(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
+
 
   const {analytics, cameraname , from_date , to_date } = req.query
 
-  const query = {};
+  const query:any = {};
 
     if (analytics) query.analytics = analytics;
     if (cameraname) query.CameraName = cameraname;
@@ -133,55 +113,79 @@ app.get(`${base_api_url}/analytics/logs`, async (req, res) => {
   return res.status(200).json(log);
 })
 
-app.post(`${base_api_url}/analytics/logs`, async (req, res) => {
+app.post(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
   const newLog = new AnalyticsLog({ ...req.body });
   const insertedLog = await newLog.save();
   socketIO.emit('log_inserted',insertedLog)
   return res.status(201).json(insertedLog);
-
-
 });
 
-app.put(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
+app.put(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   const { id } = req.params;
   await AnalyticsLog.updateOne({ id }, req.body);
-  const updatedLog = await Dog.findById(id);
+  const updatedLog = await AnalyticsLog.findById(id);
   return res.status(200).json(updatedLog);
 });
 
-app.delete(`${base_api_url}/analytics/logs/:id`, async (req, res) => {
+app.delete(`${base_api_url}/analytics/logs/:id`, async (req:any, res: any) => {
   const { id } = req.params;
   const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
   return res.status(200).json(deletedLog);
 });
 
-app.get("/live", (req, res) => {
+app.get("/live", (req: any, res:any) => {
   // res.sendFile(path.join(__dirname, "views/live.ejs"));
   return res.render('live');
 });
 
-app.get("/search", (req, res) => {
+app.get("/search", (req: any, res:any) => {
   //  return res.sendFile(path.join(__dirname, "search"));
    return res.render('search');
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", (req: any, res: any) => {
     // return res.sendFile(path.join(__dirname, "logout"));
     return res.render('logout');
 });
 
-app.get("/login", (req, res) => {
+app.get("/aboutus",  (req: any, res: any) => {
+    // return res.sendFile(path.join(__dirname, "logout"));
+     
+    return res.render('about');
+});
+
+
+app.get("/login", (req: any, res:any) => {
   // return res.sendFile(path.join(__dirname, "login"));
   return res.render('login');
 });
+app.get("/search/detail/:id", async (req: any, res:any) => {
+  // return res.sendFile(path.join(__dirname, "login"));
+try {
+   const { id } = req.params;
+  const data = await AnalyticsLog.findById(id)
 
+  return res.render('detail',{data});
+} catch (error) {
+
+  return res.render('detail',{error , message:"Cant Find the detail for requested log! "});
+    
+}
+  
+ 
+
+});
+
+
+const port =  process.env.APP_PORT
+const mongoUri:any =  process.env.MONGO_CONNECTION_STRING
 const start = async () => {
   try {
-    await mongoose.connect(
-     process.env.MONGO_CONNECTION_STRING
+    mongoose.connect(
+     mongoUri
     );
-    http.listen(process.env.APP_PORT | 3000, () => console.log(`Server started on port ${process.env.APP_PORT}`));
-    console.log(path.join(__dirname, "public"))
+    http.listen(port, () => console.log(`Server started on port ${process.env.APP_PORT}`));
+    console.log(path.join(__dirname, "public"));
   } catch (error) {
     console.error(error);
     process.exit(1);

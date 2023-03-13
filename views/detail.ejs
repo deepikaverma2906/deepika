@@ -1,0 +1,72 @@
+
+<%- include('components/head'); -%>
+
+ <body>
+
+<%- include('components/nav'); -%>
+
+<div class="container bg-light mt-5 mb-5 pt-5 px-y ">
+
+ <h2> Event of type <%= data.analytics %> found at <%= data.location %>  via Camera  <%= data.CameraName %> </h2>
+ 
+ <h6> <%= data.timestamp %></h6>
+    <p class="text-center w-100"><img src="<%= data.ImageURL %>" width="400px" alt="imageNA"></p>
+  <% if(data.object_type==='vehicle') { %>
+    <table class="table" >
+      <thead>
+        <tr>
+          <th> Vehicle type </th>
+          <th> Vehicle Plate number </th>
+          <th>Vehicle Color</th>
+          <th> Vehicle Make</th>
+          <th> Vehicle Model </th>
+          <th>Vehicle Speed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        </td>
+        <td>
+<%= data.vehicle_type %>
+        </td>
+          <td>  <%= data.vehicle_lpr_number%> </td>
+          <td>  <%= data.vehicle_color%> </td>
+          <td>
+             <%= data.vehicle_make %>
+
+          </td>
+          <td>
+<%= data.vehicle_lpr_number%>
+
+            <td><%= data.speed %> Kmph </td>
+        </tr>
+
+       
+      </tbody>
+    </table>
+    <% } else{ %>
+   
+      <p class="mb-5 pb-5"> <b>   Number of Objects </b> : <% data.NumberOfObjects %> </p>
+      <% }%>
+
+  <% if(data.VideoURL) { %>
+      
+         <p class = "w-100 px-5 ">
+          <video src="<%= data.VideoURL %>" width="100%"  alt="NA" controls autoplay muted></video>  
+         </p>
+    <% } %>
+    
+
+
+</div>
+   
+
+ 
+
+
+
+
+ <%- include('components/scripts'); -%>
+  </body>
+
+</html>
