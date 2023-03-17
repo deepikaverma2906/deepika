@@ -1,2 +1,0 @@
-MONGO_CONNECTION_STRING=mongodb://localhost:27017/Alerts
-APP_PORT=5000

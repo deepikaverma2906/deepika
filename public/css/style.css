@@ -19,7 +19,7 @@
 
 
  body{
-  background-image: url('/static/images/loginbg.webp');
+  background-image: url('/images/loginbg.webp');
 
   background-attachment: fixed;
   background-repeat: no-repeat;

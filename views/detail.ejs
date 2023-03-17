@@ -1,72 +1,104 @@
-
 <%- include('components/head'); -%>
 
- <body>
+  <body>
 
-<%- include('components/nav'); -%>
+    <%- include('components/nav'); -%>
 
-<div class="container bg-light mt-5 mb-5 pt-5 px-y ">
+      <div class="container bg-light mt-5 mb-5 pt-5 px-y ">
 
- <h2> Event of type <%= data.analytics %> found at <%= data.location %>  via Camera  <%= data.CameraName %> </h2>
- 
- <h6> <%= data.timestamp %></h6>
-    <p class="text-center w-100"><img src="<%= data.ImageURL %>" width="400px" alt="imageNA"></p>
-  <% if(data.object_type==='vehicle') { %>
-    <table class="table" >
-      <thead>
-        <tr>
-          <th> Vehicle type </th>
-          <th> Vehicle Plate number </th>
-          <th>Vehicle Color</th>
-          <th> Vehicle Make</th>
-          <th> Vehicle Model </th>
-          <th>Vehicle Speed</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-        </td>
-        <td>
-<%= data.vehicle_type %>
-        </td>
-          <td>  <%= data.vehicle_lpr_number%> </td>
-          <td>  <%= data.vehicle_color%> </td>
-          <td>
-             <%= data.vehicle_make %>
-
-          </td>
-          <td>
-<%= data.vehicle_lpr_number%>
-
-            <td><%= data.speed %> Kmph </td>
-        </tr>
-
-       
-      </tbody>
-    </table>
-    <% } else{ %>
-   
-      <p class="mb-5 pb-5"> <b>   Number of Objects </b> : <% data.NumberOfObjects %> </p>
-      <% }%>
-
-  <% if(data.VideoURL) { %>
-      
-         <p class = "w-100 px-5 ">
-          <video src="<%= data.VideoURL %>" width="100%"  alt="NA" controls autoplay muted></video>  
-         </p>
-    <% } %>
-    
+        <h2>Alert</h2>
 
 
-</div>
-   
+        <% if (data.CameraName) { %>
+          <p>Camera Name: <%= data.CameraName %>
+          </p>
+          <% } %>
+            <% if (data.timestamp) { %>
+              <p>Timestamp: <%= data.timestamp %>
+              </p>
+              <% } %>
+                <% if (data.location) { %>
+                  <p>Location: <%= data.location %>
+                  </p>
+                  <% } %>
+                    <% if (data.isSpeeding) { %>
+                      <p>isSpeeding: <%= data.isSpeeding %>
+                      </p>
+                      <% } %>
 
- 
+                        <% if (data.isANPR) { %>
+                          <p>isANPR: <%= data.isANPR %>
+                          </p>
+                          <% } %>
+
+                            <% if (data.isRLVD) { %>
+                              <p>isRLVD: <%= data.isRLVD %>
+                              </p>
+                              <% } %>
+
+                                <% if (data.isTripleRiding) { %>
+                                  <p>isTripleRiding: <%= data.isTripleRiding %>
+                                  </p>
+                                  <% } %>
+
+                                    <% if (data.isNoHelmet) { %>
+                                      <p>isNoHelmet: <%= data.isNoHelmet %>
+                                      </p>
+                                      <% } %>
+
+                                        <% if (data.isWrongWay) { %>
+                                          <p>isWrongWay: <%= data.isWrongWay %>
+                                          </p>
+                                          <% } %>
+
+                                            <% if (data.Speed) { %>
+                                              <p>Speed: <%= data.Speed %>
+                                              </p>
+                                              <% } %>
 
 
+                                                <% if (data.LPNumber) { %>
+                                                  <p>LPNumber: <%= data.LPNumber %>
+                                                  </p>
+                                                  <% } %>
 
 
- <%- include('components/scripts'); -%>
+                                                    <h5>Evidences</h5>
+                                                    <% if (data.Snapshotpath) { %>
+
+                                                      <p class="text-center w-100"><img src="<%= data.Snapshotpath %>"
+                                                          width="400px" alt="imageNA"></p>
+                                                      <% } %>
+
+
+                                                        <% if (data.LPImagePath) { %>
+
+                                                          <p class="text-center w-100"><img
+                                                              src="<%= data.LPImagePath %>" width="400px" alt="imageNA">
+                                                          </p>
+                                                          <% } %>
+
+                                                            <% if (data.RLVDImagePath) { %>
+
+                                                              <p class="text-center w-100"><img
+                                                                  src="<%= data.RLVDImagePath %>" width="400px"
+                                                                  alt="imageNA"></p>
+                                                              <% } %>
+
+                                                                <% if(data.VideoPath) { %>
+                                                                  <p class="w-100 px-5 "></p>
+                                                                  <video width="100%" alt="NA" controls autoplay muted>
+                                                                    <source src="<%= data.VideoPath %>"
+                                                                      type="video/mp4">
+                                                                  </video>
+                                                                  </p>
+                                                                  <% } %>
+
+
+      </div>
+
+
+      <%- include('components/scripts'); -%>
   </body>
 
-</html>
+  </html>
