@@ -8,12 +8,12 @@
 
 
 <!-- nav bar end -->
-<div class="container  mt-5" style="background-color: rgba(255, 255, 255, 0.4);-webkit-backdrop-filter: blur(5px);backdrop-filter: blur(5px);">
+<div class="container  mt-5" style="background-color: rgba(255, 255, 255, 0.4);-webkit-backdrop-filter: blur(5px);backdrop-filter: blur(5px); border-radius: 20px;">
   <h2 >Live Alerts </h2>
   <h6 class="border-info p-2">This is the live/Realtime Dashboard.
           the logs presented here is persistent in database.
-          if you are looking for older logs please switch to the logs tab</h6>
-    <div id="live-comp" class='container'>
+          if you are looking for older logs please switch to the   <a href="/search"> view logs </a> tab</h6>
+    <div id="live-comp" class='container  pb-2 mb-5' style="overflow-y: scroll; max-height: 70vh;">
         
      
     </div>
@@ -41,13 +41,9 @@ socket.on('log_inserted', (data) => {
     
     let beforeText = element.innerHTML
 
-  element.innerHTML =""+   
-         "<div class='alert alert-primary' role='alert'>"+
-         "<div class='row' style='color:#000'>"+
-         "<div class='col-md-2'>"+
-         "<img src='"+data.ImageURL+"' width='200px' alt='alert-image' >" +
-      "</div>"+
-     "<div class='col-md-8'>"+
+  element.innerHTML ="<a href='/search/detail/"+data._id+"'>"+   
+         "<div class='alert alert-primary text-black' role='alert'>"+
+          "<h6> EVENT </h6>"+
         "<table>"+
           "<tr>"+
             "<th>timestamp</th>"+
@@ -61,14 +57,10 @@ socket.on('log_inserted', (data) => {
             "<th>location</th>"+
             "<td>"+data.location+"</td>"+
           "</tr>"+
-             "<tr>"+
-            "<th>videourl</th>"+
-            "<td><a href='"+data.VideoURL+"'>video.mp4</a></td>"+
-          "</tr>"+
         "</table>"+
         "</div>"+
         "  </div>"+
-        " </div>" + beforeText
+        " </div>" +"</a>"+ beforeText
 });
   </script>
 </html>

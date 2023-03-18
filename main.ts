@@ -1,15 +1,9 @@
 import { users } from './users';
 import express, { Application } from "express";
-//let dotenv = require('dotenv').config()
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 import mongoose from "mongoose";
-
-import swaggerUi from "swagger-ui-express"
-
-//const swaggerUi = require(‘swagger-ui-express’),
-import { swaggerDocument } from "./swagger"
 
 import path from 'path';
 import { AnalyticsLog } from "./models";
@@ -21,6 +15,7 @@ import multer from 'multer';
 const app: Application = express();
 
 
+const BASE_UPLOAD_PATH = "uploads/"
 
 const http = require('http').Server(app);
 
@@ -35,11 +30,52 @@ app.use(express.static('public'));
 
 app.use(router);
 
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument)
-);
+const storage1 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Set the destination folder for uploaded files
+    cb(null, `./public/${BASE_UPLOAD_PATH}`);
+  },
+  filename: function (req, file, cb) {
+    const newImageName = file.originalname.replace(/\s+/g, '')
+    console.log("new ", newImageName)
+
+    // Set the file name as the current date and time, plus the original file extension
+    cb(null, Date.now() + '-' + newImageName);
+  }
+});
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    // Set the destination folder for uploaded files
+    cb(null, './public/uploads/');
+  },
+  filename: function (req, file, cb) {
+    const newImageName = file.originalname.replace(/\s+/g, '')
+    console.log("new ", newImageName)
+
+    // Set the file name as the current date and time, plus the original file extension
+    cb(null,   Date.now() + '-' + newImageName);
+  }
+});
+// Set up multer middleware with the storage engine and set the maximum file size to 10 MB
+const upload1 = multer({
+  storage: storage,
+  limits: { fileSize: 10000000 }
+}).fields([
+  { name: 'ImageURL', maxCount: 10 },
+  { name: 'SnapshotURL', maxCount: 5 },
+  { name: 'LPImageURL', maxCount: 3 },
+  { name: 'RLVDImageURL', maxCount: 3 },
+  { name: 'VideoURL', maxCount: 3 }
+]);
+
+
+// app.use(
+//   '/api-docs',
+//   swaggerUi.serve,
+//   swaggerUi.setup(swaggerDocument)
+// );
 
 // app.use(
 //   "/",
@@ -154,19 +190,7 @@ app.get(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
   return res.status(200).json(log);
 })
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Set the destination folder for uploaded files
-    cb(null, './public/');
-  },
-  filename: function (req, file, cb) {
-    const newImageName = file.originalname.replace(/\s+/g, '')
-    console.log("new ", newImageName)
 
-    // Set the file name as the current date and time, plus the original file extension
-    cb(null, Date.now() + '-' + newImageName);
-  }
-});
 
 // Set up multer middleware with the storage engine and set the maximum file size to 10 MB
 const upload = multer({
@@ -187,41 +211,54 @@ const upload = multer({
 
 app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) => {
 
-  const images = req.files['ImageURL'];
-  const SnapshotURL = req.files['SnapshotURL'];
-  const videos = req.files['LPImageURL'];
-  const RLVDImageURL = req.files['RLVDImageURL'];
-  const VideoURL = req.files['VideoURL'];
+  let images :any
+  let SnapshotURL:any 
+  let videos :any 
+  let RLVDImageURL :any
+  let VideoURL :any
+  try{
+     images = req.files['ImageURL'];
+     SnapshotURL = req.files['SnapshotURL'];
+     videos = req.files['LPImageURL'];
+     RLVDImageURL = req.files['RLVDImageURL'];
+     VideoURL = req.files['VideoURL'];
+
+
+  }
+
+  catch{
+    console.log("error")
+  }
 
   let imageName;
   let SnapshotName;
   let LPImageName;
   let RLVDImageName;
   let VideoName;
-  console.log("video", images)
+
   if (images) {
     images.forEach((element: any) => {
       console.log("name  ", element.filename)
 
-      imageName = element.filename
+      imageName = BASE_UPLOAD_PATH + element.filename
 
     });
   }
 
   if (SnapshotURL) {
     SnapshotURL.forEach((element: any) => {
-      console.log("name  ", element.filename)
+      // console.log("name ", element.filename)
 
-      SnapshotName = element.filename
+      SnapshotName = BASE_UPLOAD_PATH + element.filename
 
     });
   }
 
   if (videos) {
     videos.forEach((element: any) => {
-      console.log("name  ", element.filename)
+      // console.log("name  ", element.filename)
 
-      LPImageName = element.filename
+      LPImageName =  BASE_UPLOAD_PATH + element.filename
 
     });
   }
@@ -229,7 +266,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     RLVDImageURL.forEach((element: any) => {
       console.log("name  ", element.filename)
 
-      RLVDImageName = element.filename
+      RLVDImageName =  BASE_UPLOAD_PATH + element.filename
 
     });
   }
@@ -237,7 +274,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     VideoURL.forEach((element: any) => {
       console.log("name  ", element.filename)
 
-      VideoName = element.filename
+      VideoName = BASE_UPLOAD_PATH +  element.filename
 
     });
   }
@@ -269,7 +306,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     Snapshotpath: SnapshotName,
     RLVDImagePath: RLVDImageName,
     VideoPath: VideoName,
-    //magePath: imageName
+    ImagePath: imageName
   });
 
   console.log("emit", newLog)
@@ -277,31 +314,6 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
   socketIO.emit('log_inserted', insertedLog)
   return res.status(201).json(insertedLog);
 });
-const storage1 = multer.diskStorage({
-  destination: function (req, file, cb) {
-    // Set the destination folder for uploaded files
-    cb(null, './public/');
-  },
-  filename: function (req, file, cb) {
-    const newImageName = file.originalname.replace(/\s+/g, '')
-    console.log("new ", newImageName)
-
-    // Set the file name as the current date and time, plus the original file extension
-    cb(null, Date.now() + '-' + newImageName);
-  }
-});
-
-// Set up multer middleware with the storage engine and set the maximum file size to 10 MB
-const upload1 = multer({
-  storage: storage,
-  limits: { fileSize: 10000000 }
-}).fields([
-  { name: 'ImageURL', maxCount: 10 },
-  { name: 'SnapshotURL', maxCount: 5 },
-  { name: 'LPImageURL', maxCount: 3 },
-  { name: 'RLVDImageURL', maxCount: 3 },
-  { name: 'VideoURL', maxCount: 3 }
-]);
 
 app.put(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   const { id } = req.params;

@@ -12,12 +12,18 @@ services:
       MONGO_INITDB_DATABASE: test
     volumes:
       - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-  # xconnected-dash:
-  #   container_name: xconnected-dash
-  #   image: xyz
-  #   restart: always
-  #   depends_on: 
-  #     - mongo
+  xconnected-dash:
+    container_name: xconnected-app
+    image: rishi19990/xconnected-bhopal:0.1
+    restart: always
+    env_file: .env
+    depends_on: 
+      - mongo
+    network_mode: "host"
+    volumes:
+      - app-data:/usr/src/app/public
+volumes:
+  app-data:
 
   
 

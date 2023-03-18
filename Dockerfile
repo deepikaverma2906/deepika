@@ -13,7 +13,7 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY build .
 
 EXPOSE 4101
-CMD [ "node", "server.js" ]
+CMD [ "node", "main.js" ]
