@@ -1,0 +1,31 @@
+<h5>Evidences</h5>
+<% if (data.Snapshotpath) { %>
+
+  <p class="text-center w-100"><img src="<%= data.Snapshotpath %>"
+      width="400px" alt="imageNA"></p>
+  <% } %>
+
+
+    <% if (data.LPImagePath) { %>
+
+      <p class="text-center w-100"><img
+          src="<%= data.LPImagePath %>" width="400px" alt="imageNA">
+      </p>
+      <% } %>
+
+
+        <% if (data.RLVDImagePath) { %>
+
+          <p class="text-center w-100"><img
+              src="<%= data.RLVDImagePath %>" width="400px"
+              alt="imageNA"></p>
+          <% } %>
+
+            <% if(data.VideoPath) { %>
+              <p class="w-100 px-5 "></p>
+              <video width="100%" alt="NA" controls autoplay muted>
+                <source src="<%= data.VideoPath %>"
+                  type="video/mp4">
+              </video>
+              </p>
+              <% } %>
