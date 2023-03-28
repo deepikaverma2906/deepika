@@ -3,10 +3,17 @@
   <body>
 
     <%- include('components/nav'); -%>
+    <!-- <div id="api-form" > -->
 
       <div class="container bg-light mt-5 mb-5 pt-5 px-y ">
 
         <h2>Alert</h2>
+
+        <div class="col-md-3">
+          <button type="submit" class="btn  btn-primary w-100 " value="Submit">Generate challan
+      </button>
+      </div> 
+    <!-- </div> -->
 
 
         <% if (data.CameraName) { %>
@@ -99,6 +106,70 @@
 
 
       <%- include('components/scripts'); -%>
+
+   
   </body>
+
+
+  <script>
+    const toast = $('.toast');
+    loggedIN=localStorage.getItem('ISLOGGEDIN')
+   if (loggedIN!='true'){
+     window.location.href = '/login';
+     
+   }
+     const apiForm = document.getElementById("api-form");
+    //  const apiResponseTable = document.getElementById("api-response");
+ 
+     apiForm.addEventListener("submit", (event) => {
+       event.preventDefault();
+ 
+       // const analytics = apiForm.elements["analytics"].value;
+       // const cameraName = apiForm.elements["camera-name"].value;
+       // const fromDate = apiForm.elements["from-date"].value;
+       // const toDate = apiForm.elements["to-date"].value;
+ 
+       const url = `http://localhost:5000/generate/challan/${data._id}`;
+ 
+       fetch(url)
+         .then(response => response.json())
+        //  .then(data => {
+        //    const tableBody = apiResponseTable.querySelector("tbody");
+        //    const header_row = document.createElement("tr");
+        //    header_row.innerHTML = "<th>timestamp</th>"+
+        //  "<th>Challan No</th>"+
+        //  "<th>Camera Name</th>"+
+        //  "<th> LPNumber</th>" +
+        //  "<th> Status</th>" +
+        //  "<th> lpImage</th>"
+        //    tableBody.append(header_row)
+ 
+ 
+        //    data.forEach(rowData => {
+        //      const row = document.createElement("tr");
+        //     /* Object.values(rowData).forEach(value => {
+        //        const cell = document.createElement("td");
+        //        console.log(value)
+        //        cell.textContent = value;
+        //        row.appendChild(cell);
+        //      }); */
+ 
+             
+        //      row.innerHTML = 
+        //                      "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
+        //                       "<td>"+rowData.ChallanNo +"</td>" +
+        //                         "<td>"+rowData.CameraName +"</td>" +
+        //                         "<td>"+rowData.Status +"</td>" +
+        //                           "<td>"+rowData.LPNumber +"</td>" +
+                                  
+        //                             "<td>"+"<img src='"+rowData.LPImageURL+"' alt='image' width='250px' >" +"</td>"
+ 
+        //      tableBody.appendChild(row);
+        //    });
+        //  })
+         .catch(error => console.error(error));
+     });
+   </script>
+  
 
   </html>

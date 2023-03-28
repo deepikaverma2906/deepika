@@ -12,7 +12,7 @@ import swaggerUi from "swagger-ui-express"
 import { swaggerDocument } from "./swagger"
 
 import path from 'path';
-import { AnalyticsLog } from "./models";
+import { AnalyticsLog, Challan } from "./models";
 import morgan from 'morgan';
 import router from './src/routes';
 import multer from 'multer';
@@ -101,7 +101,7 @@ app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   const { id } = req.params;
   const ipPort = req.get('host');
   const protocol = req.protocol
- 
+
   const log = await AnalyticsLog.findById(id);
   console.log("log", log)
   if (log) {
@@ -179,11 +179,6 @@ const upload = multer({
   { name: 'RLVDImageURL', maxCount: 3 },
   { name: 'VideoURL', maxCount: 3 }
 ]);
-
-// app.post('/upload', upload.array('images', 10), function (req, res, next) {
-//   // req.files contains an array of files
-//   // req.body will contain the text fields, if there were any
-// })
 
 app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) => {
 
@@ -429,10 +424,46 @@ app.get("/search", (req: any, res: any) => {
   return res.render('search');
 });
 
+app.get("/view/challan", async (req: any, res: any) => {
+  console.log("challan")
+  const { id } = req.params;
+  const ipPort = req.get('host');
+  const protocol = req.protocol
+
+  const data = await Challan.find();
+  if(data){
+  data.forEach(logObj => {
+
+    console.log("eeeeee", logObj.LPImageURL)
+
+    logObj['LPImageURL'] = `${protocol}://${ipPort}/${logObj.LPImageURL}`
+    logObj['EventType'] = logObj.EventType
+    // logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
+    // logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
+    // logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+
+
+    //console.log("element", logObj.RLVDImageURL)
+
+  });
+  }
+  console.log("data ", data)
+  return res.json(data);
+  //  return res.sendFile(path.join(__dirname, "search"));
+  // return res.render('challan');
+});
+
+
 app.get("/logout", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "logout"));
   return res.render('logout');
 });
+
+app.get("/challan", (req: any, res: any) => {
+  // return res.sendFile(path.join(__dirname, "logout"));
+  return res.render('challan');
+});
+
 
 app.get("/aboutus", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "logout"));
@@ -450,17 +481,17 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
   try {
     const { id } = req.params;
     const ipPort = req.get('host');
-  const protocol = req.protocol
- 
+    const protocol = req.protocol
+    
     const data = await AnalyticsLog.findById(id);
 
     // console.log("data", data);
 
     if (data) {
-     data['RLVDImagePath'] = `${protocol}://${ipPort}/${data.RLVDImagePath}`;
-    data['VideoPath'] = `${protocol}://${ipPort}/${data.VideoPath}`;
-    data['LPImagePath'] = `${protocol}://${ipPort}/${data.LPImagePath}`;
-    data['Snapshotpath'] = `${protocol}://${ipPort}/${data.Snapshotpath}`;
+      data['RLVDImagePath'] = `${protocol}://${ipPort}/${data.RLVDImagePath}`;
+      data['VideoPath'] = `${protocol}://${ipPort}/${data.VideoPath}`;
+      data['LPImagePath'] = `${protocol}://${ipPort}/${data.LPImagePath}`;
+      data['Snapshotpath'] = `${protocol}://${ipPort}/${data.Snapshotpath}`;
 
     }
 
@@ -474,8 +505,50 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
   }
 
 
-
 });
+
+
+app.get(`/generate/challan/:id`, async (req: any, res: any) => {
+
+
+  // app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
+  const { id } = req.params;
+  const ipPort = req.get('host');
+  const protocol = req.protocol
+
+  const log = await AnalyticsLog.findById(id);
+  console.log("log", log)
+
+  const challanNo = `${log?.timestamp}${log?.object_type}${log?.LPNumber}`
+
+  //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
+  const newLog = new Challan({
+    ChallanNo: challanNo,
+    Status : "notpaid",
+    timestamp: log?.timestamp,
+    CameraName: log?.CameraName,
+    LPImageURL: log?.LPImagePath,
+    location: log?.location,
+    CustomerName: log?.CustomerName,
+    Lat: log?.Lat,
+    Long: log?.Long,
+     EventType: log?.object_type,
+    Speed: log?.Speed,
+    LPNumber: log?.LPNumber,
+    Snapshotpath: log?.SnapshotURL,
+    RLVDImagePath: log?.RLVDImageURL,
+    VideoPath: log?.VideoURL,
+  });
+
+  console.log("emit", newLog)
+  const insertedLog = await newLog.save();
+  socketIO.emit('log_inserted', insertedLog)
+  return res.status(201).json(insertedLog);
+});
+
+
+
+
 
 
 const port = process.env.APP_PORT
