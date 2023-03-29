@@ -52,10 +52,10 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const newImageName = file.originalname.replace(/\s+/g, '')
-    console.log("new ", newImageName)
+    console.log("new ", file.originalname)
 
     // Set the file name as the current date and time, plus the original file extension
-    cb(null,   Date.now() + '-' + newImageName);
+    cb(null, newImageName);
   }
 });
 // Set up multer middleware with the storage engine and set the maximum file size to 10 MB
@@ -150,6 +150,15 @@ app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   return res.status(200).json(log);
 });
 
+
+app.get(`/challan/fetch/:id`, async (req: any, res: any) => {
+  const { id } = req.params;
+  const log = await Challan.findById(id);
+  console.log("log", log)
+  return res.status(200).json(log);
+});
+
+
 app.get('/', (req: any, res: { redirect: (arg0: string) => void; }) => {
   res.redirect('/login');
 });
@@ -206,22 +215,22 @@ const upload = multer({
 
 app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) => {
 
-  let images :any
-  let SnapshotURL:any 
-  let videos :any 
-  let RLVDImageURL :any
-  let VideoURL :any
-  try{
-     images = req.files['ImageURL'];
-     SnapshotURL = req.files['SnapshotURL'];
-     videos = req.files['LPImageURL'];
-     RLVDImageURL = req.files['RLVDImageURL'];
-     VideoURL = req.files['VideoURL'];
+  let images: any
+  let SnapshotURL: any
+  let videos: any
+  let RLVDImageURL: any
+  let VideoURL: any
+  try {
+    images = req.files['ImageURL'];
+    SnapshotURL = req.files['SnapshotURL'];
+    videos = req.files['LPImageURL'];
+    RLVDImageURL = req.files['RLVDImageURL'];
+    VideoURL = req.files['VideoURL'];
 
 
   }
 
-  catch{
+  catch {
     console.log("error")
   }
 
@@ -253,7 +262,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     videos.forEach((element: any) => {
       // console.log("name  ", element.filename)
 
-      LPImageName =  BASE_UPLOAD_PATH + element.filename
+      LPImageName = BASE_UPLOAD_PATH + element.filename
 
     });
   }
@@ -261,7 +270,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     RLVDImageURL.forEach((element: any) => {
       console.log("name  ", element.filename)
 
-      RLVDImageName =  BASE_UPLOAD_PATH + element.filename
+      RLVDImageName = BASE_UPLOAD_PATH + element.filename
 
     });
   }
@@ -269,7 +278,7 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     VideoURL.forEach((element: any) => {
       console.log("name  ", element.filename)
 
-      VideoName = BASE_UPLOAD_PATH +  element.filename
+      VideoName = BASE_UPLOAD_PATH + element.filename
 
     });
   }
@@ -419,6 +428,40 @@ app.get('/api/search/analytics', async (req, res) => {
 });
 
 
+app.get('/api/search/challan', async (req, res) => {
+  let queryCond: { [key: string]: any } = {};
+
+  if (req.query.ChallanNo) {
+    queryCond.ChallanNo = req.query.ChallanNo;
+  }
+  try {
+    const data = await Challan.find({ 'ChallanNo': { '$regex': req.query.ChallanNo } });
+    console.log("data ", data)
+    res.json(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+
+app.put(`/challan/update/:id`, async (req: any, res: any) => {
+  const { id } = req.params;
+  console.log("body", req.body);
+
+  const updateData = await Challan.update({ _id: id }, {
+    Status: req.body.Status
+  });
+
+  console.log("updateData  ", updateData)
+  const updatedLog = await Challan.findById(id);
+
+  return res.status(200).json(updatedLog);
+});
+
+
+
 
 app.delete(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
   const { id } = req.params;
@@ -443,21 +486,21 @@ app.get("/view/challan", async (req: any, res: any) => {
   const protocol = req.protocol
 
   const data = await Challan.find();
-  if(data){
-  data.forEach(logObj => {
+  if (data) {
+    data.forEach(logObj => {
 
-    console.log("eeeeee", logObj.LPImageURL)
+      console.log("eeeeee", logObj.LPImageURL)
 
-    logObj['LPImageURL'] = `${protocol}://${ipPort}/${logObj.LPImageURL}`
-    logObj['EventType'] = logObj.EventType
-    // logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
-    // logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
-    // logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+      logObj['LPImageURL'] = `${protocol}://${ipPort}/${logObj.LPImageURL}`
+      logObj['EventType'] = logObj.EventType
+      // logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
+      // logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
+      // logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
 
 
-    //console.log("element", logObj.RLVDImageURL)
+      //console.log("element", logObj.RLVDImageURL)
 
-  });
+    });
   }
   console.log("data ", data)
   return res.json(data);
@@ -494,7 +537,7 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
     const { id } = req.params;
     const ipPort = req.get('host');
     const protocol = req.protocol
-    
+
     const data = await AnalyticsLog.findById(id);
 
     // console.log("data", data);
@@ -539,7 +582,7 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
   //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
   const newLog = new Challan({
     ChallanNo: challanNo,
-    Status : "notpaid",
+    Status: "notpaid",
     timestamp: log?.timestamp,
     CameraName: log?.CameraName,
     LPImageURL: log?.LPImagePath,
@@ -547,7 +590,7 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
     CustomerName: log?.CustomerName,
     Lat: log?.Lat,
     Long: log?.Long,
-     EventType: log?.object_type,
+    EventType: log?.object_type,
     Speed: log?.Speed,
     LPNumber: log?.LPNumber,
     Snapshotpath: log?.SnapshotURL,
