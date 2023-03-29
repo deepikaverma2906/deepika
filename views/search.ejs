@@ -128,9 +128,11 @@
           tableBody.innerHTML=""
           const header_row = document.createElement("tr");
           header_row.innerHTML = "<th>timestamp</th>"+
-        "<th>Analytics Name</th>"+
         "<th>Camera Name</th>"+
-        "<th> location</th>"
+        "<th> Event Type</th>"+
+        "<th> LP Number</th>"+
+        "<th>Lp Image</th>"
+      
           tableBody.append(header_row)
 
 
@@ -138,19 +140,17 @@
             const row = document.createElement("tr");
            /* Object.values(rowData).forEach(value => {
               const cell = document.createElement("td");
-              console.log(value)
-              cell.textContent = value;
+              console.log(value)              cell.textContent = value;
               row.appendChild(cell);
             }); */
 
             
             row.innerHTML = 
                             "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
-                             "<td>"+rowData.analytics +"</td>" +
                                "<td>"+rowData.CameraName +"</td>" +
-                                 "<td>"+rowData.location +"</td>" 
-                                   //<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
-
+                                 "<td>"+rowData.object_type +"</td>" +
+                                 "<td>"+rowData.LPNumber +"</td>" +
+                                 "<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
             tableBody.appendChild(row);
           });
         })
