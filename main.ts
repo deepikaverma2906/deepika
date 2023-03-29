@@ -521,7 +521,7 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
 
 app.get("/challan/updatechallan/:id", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "login"));
-  return res.render('detail');
+  return res.render('updatechallan');
 });
 app.get(`/generate/challan/:id`, async (req: any, res: any) => {
 
