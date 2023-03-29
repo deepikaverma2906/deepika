@@ -3,7 +3,7 @@ import json
 import datetime
 import time
 
-url = 'http://localhost:5000/api/v1/analytics/logs'  # Replace with the actual URL of the form submission endpoint
+url = 'http://localhost:4101/api/v1/analytics/logs'  # Replace with the actual URL of the form submission endpoint
 while True:
     form_data = {
         'timestamp': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'), 

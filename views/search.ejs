@@ -1,4 +1,3 @@
-
 <%- include('components/head'); -%>
   <style>
     table {
@@ -6,166 +5,169 @@
       width: 100%;
     }
 
-    th, td {
+    th,
+    td {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
-   
+
     }
+
     td {
       background-color: #f2f2f2;
       color: #000;
     }
+
     tr th {
       background-color: #000;
       color: #f2f2f2;
     }
   </style>
- 
-<body>
-  
 
- <%- include('components/nav'); -%>
+  <body>
 
 
- <div class="container bg-white mt-4 pt-4 pb-5" style="border-radius: 20px;">
-   
-
-     
+    <%- include('components/nav'); -%>
 
 
-  <form id="api-form">
-   <div class="form-group">
-
-      <div class="row">
-         <div class="col-md-3">
-
-<label for="analytics">Analytics:</label>
-    <input type="text"   class="form-control" id="analytics" name="analytics">
-         </div>
- 
-      <div class="col-md-3">
- <label for="camera-name">Camera Name:</label>
-    <input type="text"   class="form-control" id="camera-name" name="camera-name">
-      </div>
-      <div class="col-md-3">
-          <label for="from-date">From Date:</label>
-    <input type="datetime-local" class="form-control" id="from-date" name="from-date" >
-      </div>
-      <div class="col-md-3">
-         
-         
-    <label for="to-date">To Date:</label>
-    <input type="datetime-local"  class="form-control" id="to-date" name="to-date" >
-      </div>
-   
-      </div>
-      <div class="row my-4">
-      
- <div class="col-md-3">
-
-      </div>
-      <div class="col-md-3"></div>
-      <div class="col-md-3"></div>
-      <div class="col-md-3">
-          <button type="submit" class="btn  btn-primary w-100 " value="Submit"> Search
-      </button>
-      </div> 
-      </div>
-     
-<hr style="opacity: 1;color: #000;">
-   
-
-   </div>
-  
-  </form>
-<div style="overflow-y: scroll; max-height: 60vh;">
+      <div class="container bg-white mt-4 pt-4 pb-5" style="border-radius: 20px;">
 
 
-  <table id="api-response">
-    <thead>
-     
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-
-</div>
-  
-
-  <script>
-   const toast = $('.toast');
-   loggedIN=localStorage.getItem('ISLOGGEDIN')
-  if (loggedIN!='true'){
-    window.location.href = '/login';
-    
-  }
-    const apiForm = document.getElementById("api-form");
-    const apiResponseTable = document.getElementById("api-response");
-
-    apiForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      
-      const analytics = apiForm.elements["analytics"].value;
-      const cameraName = apiForm.elements["camera-name"].value;
-      const fromDate = apiForm.elements["from-date"].value;
-      const toDate = apiForm.elements["to-date"].value;
-
-      const url = `/api/v1/analytics/logs?analytics=${analytics}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
-
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length <1){
-
-              const tableBody = apiResponseTable.querySelector("tbody");
-          tableBody.innerHTML=""
-          tableBody.innerHTML="<strong> NO LOGS FOUND FOR GIVEN CRITERIA. PLEASE UPDATE THE CRITERIA AND TRY AGAIN</strong>"
-          return
-            }
-
-          const tableBody = apiResponseTable.querySelector("tbody");
-          tableBody.innerHTML=""
-          const header_row = document.createElement("tr");
-          header_row.innerHTML = "<th>timestamp</th>"+
-        "<th>Analytics Name</th>"+
-        "<th>Camera Name</th>"+
-        "<th> location</th>"
-          tableBody.append(header_row)
 
 
-          data.forEach(rowData => {
-            const row = document.createElement("tr");
-           /* Object.values(rowData).forEach(value => {
-              const cell = document.createElement("td");
-              console.log(value)
-              cell.textContent = value;
-              row.appendChild(cell);
-            }); */
 
-            
-            row.innerHTML = 
-                            "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
-                             "<td>"+rowData.analytics +"</td>" +
-                               "<td>"+rowData.CameraName +"</td>" +
-                                 "<td>"+rowData.location +"</td>" 
-                                   //<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
+        <form id="api-form">
+          <div class="form-group">
 
-            tableBody.appendChild(row);
+            <div class="row">
+              <div class="col-md-3">
+
+                <label for="analytics">Analytics:</label>
+                <input type="text" class="form-control" id="analytics" name="analytics">
+              </div>
+
+              <div class="col-md-3">
+                <label for="camera-name">Camera Name:</label>
+                <input type="text" class="form-control" id="camera-name" name="camera-name">
+              </div>
+              <div class="col-md-3">
+                <label for="from-date">From Date:</label>
+                <input type="datetime-local" class="form-control" id="from-date" name="from-date">
+              </div>
+              <div class="col-md-3">
+
+
+                <label for="to-date">To Date:</label>
+                <input type="datetime-local" class="form-control" id="to-date" name="to-date">
+              </div>
+
+            </div>
+            <div class="row my-4">
+
+              <div class="col-md-3">
+
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <button type="submit" class="btn  btn-primary w-100 " value="Submit"> Search
+                </button>
+              </div>
+            </div>
+
+            <hr style="opacity: 1;color: #000;">
+
+
+          </div>
+
+        </form>
+        <div style="overflow-y: scroll; max-height: 60vh;">
+
+
+          <table id="api-response">
+            <thead>
+
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <script>
+          const toast = $('.toast');
+          loggedIN = localStorage.getItem('ISLOGGEDIN')
+          if (loggedIN != 'true') {
+            window.location.href = '/login';
+
+          }
+          const apiForm = document.getElementById("api-form");
+          const apiResponseTable = document.getElementById("api-response");
+
+          apiForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const analytics = apiForm.elements["analytics"].value;
+            const cameraName = apiForm.elements["camera-name"].value;
+            const fromDate = apiForm.elements["from-date"].value;
+            const toDate = apiForm.elements["to-date"].value;
+
+            const url = `/api/v1/analytics/logs?analytics=${analytics}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
+
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                if (data.length < 1) {
+
+                  const tableBody = apiResponseTable.querySelector("tbody");
+                  tableBody.innerHTML = ""
+                  tableBody.innerHTML = "<strong> NO LOGS FOUND FOR GIVEN CRITERIA. PLEASE UPDATE THE CRITERIA AND TRY AGAIN</strong>"
+                  return
+                }
+
+                const tableBody = apiResponseTable.querySelector("tbody");
+                tableBody.innerHTML = ""
+                const header_row = document.createElement("tr");
+                header_row.innerHTML = "<th>timestamp</th>" +
+                  "<th>Analytics Name</th>" +
+                  "<th>Camera Name</th>" +
+                  "<th> location</th>"
+                tableBody.append(header_row)
+
+
+                data.forEach(rowData => {
+                  const row = document.createElement("tr");
+                  /* Object.values(rowData).forEach(value => {
+                     const cell = document.createElement("td");
+                     console.log(value)
+                     cell.textContent = value;
+                     row.appendChild(cell);
+                   }); */
+
+
+                  row.innerHTML =
+                    "<td>" + "<a href='/search/detail/" + rowData._id + "' target='_blank'>" + rowData.timestamp + "</a>" + "</td>" +
+                    "<td>" + rowData.analytics + "</td>" +
+                    "<td>" + rowData.CameraName + "</td>" +
+                    "<td>" + rowData.location + "</td>"
+                  //<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
+
+                  tableBody.appendChild(row);
+                });
+              })
+              .catch(error => console.error(error));
           });
-        })
-        .catch(error => console.error(error));
-    });
-  </script>
-      
+        </script>
 
- </div>
+
+      </div>
 
 
 
 
 
- <%- include('components/scripts'); -%>
+      <%- include('components/scripts'); -%>
   </body>
 
-</html>
+  </html>

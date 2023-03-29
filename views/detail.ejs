@@ -3,20 +3,24 @@
   <body>
 
     <%- include('components/nav'); -%>
-    <!-- <div id="api-form" > -->
+      <div id="generatebtn" >
 
-      <div class="container bg-light mt-4  pt-2 pb-2 " >
+      <div class="container bg-light mt-4  pt-2 pb-2 ">
         <div class="row">
           <div class="col-md-6">
             <h3>EVENT-DETAILS</h3>
           </div>
           <div class="col-md-4"></div>
-          <div class="col-md-2 "><button type="button" id="gc" class="btn btn-primary  ">Generate Chalan</button></div>
+          <div class="col-md-2 "><button type="submit" id="gc" class="btn btn-primary  ">Generate Chalan</button></div>
         </div>
 
         <hr>
-        <!-- <button type="button" class="btn btn-primary w-100 ">Generate Chalan</button> -->
         <div style="overflow-y: scroll; max-height: 70vh;">
+        <!-- <button type="button" class="btn btn-primary w-100 ">Generate Chalan</button> -->
+        <div class="row">
+          <div class="col-md-8">
+          
+        
 
           <% if (data.CameraName) { %>
             <p> <b>Camera Name</b> : <%= data.CameraName %>
@@ -65,21 +69,50 @@
                                                 <p><b> Speed </b> : <%= data.Speed %>
                                                 </p>
                                                 <% } %>
-
-        <div class="col-md-3">
-          <button type="submit" class="btn  btn-primary w-100 " value="Submit">Generate challan
-      </button>
-      </div> 
-    <!-- </div> -->
-
-
-                                                  <% if (data.LPNumber) { %>
-                                                    <p> <b>LPNumber</b> : <%= data.LPNumber %>
-                                                    </p>
-                                                    <% } %>
+                                                <% if (data.LPNumber) { %>
+                                                  <p> <b>LPNumber</b> : <%= data.LPNumber %>
+                                                  </p>
+                                                  <% } %>
+                                                  <!-- <div class="col-md-3">
+                                                    <button type="submit" class="btn  btn-primary w-100 "
+                                                      value="Submit">Generate challan
+                                                    </button>
+                                                  </div> -->
+                                                  <!-- </div> -->
 
 
-                                                      <table class="table ">
+                                                 
+        </div>
+       
+        <div class="col-md-4">
+          <% if (data.LPImagePath) { %>
+
+            <p class="text-center w-100"><img
+                src="<%= data.LPImagePath %>" width="100%"
+                alt="imageNA">
+            </p>
+            <% } %>
+        </div>
+        
+        <div class="col-md-6">
+          <% if (data.RLVDImagePath) { %>
+
+            <p class="text-center w-100"><img
+                src="<%= data.RLVDImagePath %>" width="100%"
+                alt="imageNA"></p>
+            <% } %>
+        </div>
+        <div class="col-md-6">
+          <% if (data.Snapshotpath) { %>
+
+            <p class="text-center w-100"><img
+                src="<%= data.Snapshotpath %>" width="100%"
+                alt="imageNA"></p>
+            <% } %>
+        </div>
+      </div>
+
+                                                      <!-- <table class="table ">
                                                         <tr>
                                                           <td>
 
@@ -123,19 +156,23 @@
                                                           </td>
                                                         </tr>
 
-                                                      </table>
+                                                      </table> -->
 
         </div>
 
-
+      <!-- </div>-->
+    </div> 
       </div>
 
-
-      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000"
+<div id="activity">
+  Hello
+  
+</div>
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4101"
         style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
           <strong class="mr-auto">Success</strong>
-          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <button type="submit" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -146,7 +183,7 @@
 
       <%- include('components/scripts'); -%>
 
-   
+
         <!-- <script>
           const button1 = document.querySelector('#gc');
           const toast = $('.toast');
@@ -160,27 +197,29 @@
 
   <script>
     const toast = $('.toast');
-    loggedIN=localStorage.getItem('ISLOGGEDIN')
-   if (loggedIN!='true'){
-     window.location.href = '/login';
-     
-   }
-     const apiForm = document.getElementById("api-form");
+    loggedIN = localStorage.getItem('ISLOGGEDIN')
+    if (loggedIN != 'true') {
+      window.location.href = '/login';
+
+    }
+    const generateBtn = document.getElementById('#generatebtn');
     //  const apiResponseTable = document.getElementById("api-response");
- 
-     apiForm.addEventListener("submit", (event) => {
-       event.preventDefault();
- 
-       // const analytics = apiForm.elements["analytics"].value;
-       // const cameraName = apiForm.elements["camera-name"].value;
-       // const fromDate = apiForm.elements["from-date"].value;
-       // const toDate = apiForm.elements["to-date"].value;
- 
-       const url = `http://localhost:5000/generate/challan/${data._id}`;
- 
-       fetch(url)
-         .then(response => response.json())
-        //  .then(data => {
+
+    generateBtn.addEventListener('submit', (event) => {
+      // event.preventDefault();
+
+      // const analytics = apiForm.elements["analytics"].value;
+      // const cameraName = apiForm.elements["camera-name"].value;
+      // const fromDate = apiForm.elements["from-date"].value;
+      // const toDate = apiForm.elements["to-date"].value;
+
+      const url = `http://localhost:4101/generate/challan/${data._id}`;
+
+      fetch(url)
+        .then((res) => res.json())
+         .then((res) => {
+          const textNode = document.querySelector('#activity');
+                textNode.textContent = res.activity;
         //    const tableBody = apiResponseTable.querySelector("tbody");
         //    const header_row = document.createElement("tr");
         //    header_row.innerHTML = "<th>timestamp</th>"+
@@ -190,8 +229,8 @@
         //  "<th> Status</th>" +
         //  "<th> lpImage</th>"
         //    tableBody.append(header_row)
- 
- 
+
+
         //    data.forEach(rowData => {
         //      const row = document.createElement("tr");
         //     /* Object.values(rowData).forEach(value => {
@@ -200,23 +239,23 @@
         //        cell.textContent = value;
         //        row.appendChild(cell);
         //      }); */
- 
-             
+
+
         //      row.innerHTML = 
         //                      "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
         //                       "<td>"+rowData.ChallanNo +"</td>" +
         //                         "<td>"+rowData.CameraName +"</td>" +
         //                         "<td>"+rowData.Status +"</td>" +
         //                           "<td>"+rowData.LPNumber +"</td>" +
-                                  
+
         //                             "<td>"+"<img src='"+rowData.LPImageURL+"' alt='image' width='250px' >" +"</td>"
- 
+
         //      tableBody.appendChild(row);
         //    });
-        //  })
-         .catch(error => console.error(error));
-     });
-   </script>
-  
+         })
+        .catch(error => console.error(error));
+    });
+  </script>
+
 
   </html>
