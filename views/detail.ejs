@@ -30,40 +30,17 @@
                 <p> <b>Timestamp </b>: <%= data.timestamp %>
                 </p>
                 <% } %>
+                <% if (data.EventType) { %>
+                  <p><b>Event Type </b>: <%= data.EventType %>
+                  </p>
+                  <% } %>
                   <% if (data.location) { %>
                     <p><b>Location </b>: <%= data.location %>
                     </p>
                     <% } %>
-                      <% if (data.isSpeeding) { %>
-                        <p> <b> isSpeeding: </b>
-                          <%= data.isSpeeding %>
-                        </p>
-                        <% } %>
+                     
 
-                          <% if (data.isANPR) { %>
-                            <p> <b>isANPR </b> : <%= data.isANPR %>
-                            </p>
-                            <% } %>
-
-                              <% if (data.isRLVD) { %>
-                                <p> <b>isRLVD</b> : <%= data.isRLVD %>
-                                </p>
-                                <% } %>
-
-                                  <% if (data.isTripleRiding) { %>
-                                    <p> <b>isTripleRiding</b> : <%= data.isTripleRiding %>
-                                    </p>
-                                    <% } %>
-
-                                      <% if (data.isNoHelmet) { %>
-                                        <p> <b>isNoHelmet</b> : <%= data.isNoHelmet %>
-                                        </p>
-                                        <% } %>
-
-                                          <% if (data.isWrongWay) { %>
-                                            <p><b>isWrongWay </b> : <%= data.isWrongWay %>
-                                            </p>
-                                            <% } %>
+                         
 
                                               <% if (data.Speed) { %>
                                                 <p><b> Speed </b> : <%= data.Speed %>

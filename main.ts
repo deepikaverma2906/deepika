@@ -174,39 +174,45 @@ app.get('/', (req: any, res: { redirect: (arg0: string) => void; }) => {
 
 app.get(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
 
-  // console.log(req.get('host'))
-  const ipPort = req.get('host');
-  const protocol = req.protocol
-  // console.log(req.hostname, req.port, req.protocol)
+ // console.log(req.get('host'))
+ const ipPort = req.get('host');
+ const protocol = req.protocol
+ // console.log(req.hostname, req.port, req.protocol)
 
-  const { analytics, cameraname, from_date, to_date } = req.query
+ const {  EventType, cameraname, from_date, to_date } = req.query
+   
+ const query: any = {};
 
-  const query: any = {};
+ if (EventType) query.EventType = {
 
-  if (analytics) query.analytics = analytics;
-  if (cameraname) query.CameraName = cameraname;
-  if (from_date && to_date) query.timestamp = {
-    $gte: from_date,
-    $lte: to_date
-  }
-
-
-  const log = await AnalyticsLog.find(query);
-
-  log.forEach(logObj => {
-
-    logObj['RLVDImagePath'] = `${protocol}://${ipPort}/${logObj.RLVDImagePath}`;
-    logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
-    logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
-    logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+   $in:EventType.split(',')
+ };
+ if (cameraname) query.CameraName = cameraname;
+ if (from_date && to_date) query.timestamp = {
+   $gte: from_date,
+   $lte: to_date
+ }
 
 
-    //console.log("element", logObj.RLVDImageURL)
+ const log = await AnalyticsLog.find(query);
+
+ log.forEach(logObj => {
+
+   logObj['RLVDImagePath'] = `${protocol}://${ipPort}/${logObj.RLVDImagePath}`;
+   logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
+   logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
+   logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+
+
+   //console.log("element", logObj.RLVDImageURL)
+
+ });
+
+ return res.status(200).json(log);
 
   });
 
-  return res.status(200).json(log);
-})
+
 
 
 
@@ -229,6 +235,8 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
   let videos: any
   let RLVDImageURL: any
   let VideoURL: any
+  const ipPort = req.get('host');
+  const protocol = req.protocol
   try {
     images = req.files['ImageURL'];
     SnapshotURL = req.files['SnapshotURL'];
@@ -319,13 +327,19 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     Snapshotpath: SnapshotName,
     RLVDImagePath: RLVDImageName,
     VideoPath: VideoName,
-    ImagePath: imageName
+    ImagePath: imageName,
+    EventType: req.body.EventType
   });
 
   console.log("emit", newLog)
   const insertedLog = await newLog.save();
+  insertedLog['RLVDImagePath'] = `${protocol}://${ipPort}/${insertedLog.RLVDImagePath}`;
+  insertedLog['VideoPath'] = `${protocol}://${ipPort}/${insertedLog.VideoPath}`;
+  insertedLog['LPImagePath'] = `${protocol}://${ipPort}/${insertedLog.LPImagePath}`;
+  insertedLog['Snapshotpath'] = `${protocol}://${ipPort}/${insertedLog.Snapshotpath}`;
+   let detailUrl = `${protocol}://${ipPort}/search/detail/${insertedLog._id}`;
   socketIO.emit('log_inserted', insertedLog)
-  return res.status(201).json(insertedLog);
+  return res.status(201).json({data: insertedLog, url: detailUrl });
 });
 
 app.put(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
@@ -575,43 +589,43 @@ app.get("/challan/updatechallan/:id", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "login"));
   return res.render('updatechallan');
 });
-app.get(`/generate/challan/:id`, async (req: any, res: any) => {
+// app.get(`/generate/challan/:id`, async (req: any, res: any) => {
 
 
-  // app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
-  const { id } = req.params;
-  const ipPort = req.get('host');
-  const protocol = req.protocol
+//   // app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
+//   const { id } = req.params;
+//   const ipPort = req.get('host');
+//   const protocol = req.protocol
 
-  const log = await AnalyticsLog.findById(id);
-  console.log("log", log)
+//   const log = await AnalyticsLog.findById(id);
+//   console.log("log", log)
 
-  const challanNo = `${log?.timestamp}${log?.object_type}${log?.LPNumber}`
+//   const challanNo = `${log?.timestamp}${log?.object_type}${log?.LPNumber}`
 
-  //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
-  const newLog = new Challan({
-    ChallanNo: challanNo,
-    Status: "notpaid",
-    timestamp: log?.timestamp,
-    CameraName: log?.CameraName,
-    LPImageURL: log?.LPImagePath,
-    location: log?.location,
-    CustomerName: log?.CustomerName,
-    Lat: log?.Lat,
-    Long: log?.Long,
-    EventType: log?.object_type,
-    Speed: log?.Speed,
-    LPNumber: log?.LPNumber,
-    Snapshotpath: log?.SnapshotURL,
-    RLVDImagePath: log?.RLVDImageURL,
-    VideoPath: log?.VideoURL,
-  });
+//   //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
+//   const newLog = new Challan({
+//     ChallanNo: challanNo,
+//     Status: "notpaid",
+//     timestamp: log?.timestamp,
+//     CameraName: log?.CameraName,
+//     LPImageURL: log?.LPImagePath,
+//     location: log?.location,
+//     CustomerName: log?.CustomerName,
+//     Lat: log?.Lat,
+//     Long: log?.Long,
+//     // EventType: log?.object_type,
+//     Speed: log?.Speed,
+//     LPNumber: log?.LPNumber,
+//     Snapshotpath: log?.SnapshotURL,
+//     RLVDImagePath: log?.RLVDImageURL,
+//     VideoPath: log?.VideoURL,
+//   });
 
-  console.log("emit", newLog)
-  const insertedLog = await newLog.save();
-  socketIO.emit('log_inserted', insertedLog)
-  return res.status(201).json(insertedLog);
-});
+//   console.log("emit", newLog)
+//   const insertedLog = await newLog.save();
+//   socketIO.emit('log_inserted', insertedLog)
+//   return res.status(201).json(insertedLog);
+// });
 
 
 
