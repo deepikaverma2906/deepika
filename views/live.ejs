@@ -38,7 +38,8 @@ socket.on('log_inserted', (data) => {
     
     let beforeText = element.innerHTML
 
-  element.innerHTML ="<a href='/search/detail/"+data._id+"'>"+   
+  element.innerHTML ="<a href='/search/detail/"+data._id+"'>"+  
+     
          "<div class='alert alert-primary text-black' role='alert'>"+
 
           "<h6> EVENT </h6>"+
@@ -56,13 +57,14 @@ socket.on('log_inserted', (data) => {
             "<td>"+data.CameraName +"</td>"+
          " </tr>"+
           "<tr>"+
-            "<th>location</th>"+
+            "<th> </th>"+
             "<td>"+data.location+"</td>"+
           "</tr>"+
         "</table>"+
         "</div>"+
         "  </div>"+
-        " </div>" +"</a>"+ beforeText
+        " </div>" +
+        "</a>"+ beforeText
 });
   </script>
 </html>
