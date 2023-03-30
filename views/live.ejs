@@ -27,7 +27,6 @@
     window.location.href = '/login';
     
   }
-
   const socket = io();
 socket.on('connection',(data)=>{
   console.log("server Connected")
@@ -35,14 +34,13 @@ socket.on('connection',(data)=>{
 })
 
 socket.on('log_inserted', (data) => {
-
-  
   element=document.getElementById("live-comp");
     
     let beforeText = element.innerHTML
 
   element.innerHTML ="<a href='/search/detail/"+data._id+"'>"+   
          "<div class='alert alert-primary text-black' role='alert'>"+
+
           "<h6> EVENT </h6>"+
         "<table>"+
           "<tr>"+
@@ -51,7 +49,7 @@ socket.on('log_inserted', (data) => {
          "</tr>"+
          " <tr>"+
             "<th>camera name</th>"+
-            "<td>"+data.CameraName+"</td>"+
+            "<td>"+data.CameraName +"</td>"+
          " </tr>"+
           "<tr>"+
             "<th>location</th>"+

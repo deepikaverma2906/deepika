@@ -22,11 +22,19 @@ const http = require('http').Server(app);
 const socketIO = require('socket.io')(http);
 
 const base_api_url = '/api/v1';
+
+
 app.use(express.json());
+
+
 app.use(morgan("tiny"));
 //app.use('/static',express.static(path.join(__dirname, "public")));
 app.use(express.static('public'));
 
+app.set('views', path.join(__dirname, 'views'));
+// app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs')
+app.engine('ejs', require('ejs').renderFile); 
 
 app.use(router);
 
@@ -86,8 +94,9 @@ const upload1 = multer({
 //     },
 //   })
 // );
-app.set("views", path.join(__dirname, "views"));
-app.set('view engine', 'ejs')
+
+
+
 
 socketIO.on("connection", (socket: any) => {
   console.log(`⚡: ${socket.id} user just connected`);

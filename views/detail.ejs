@@ -213,7 +213,7 @@
       // const fromDate = apiForm.elements["from-date"].value;
       // const toDate = apiForm.elements["to-date"].value;
 
-      const url = `http://localhost:4101/generate/challan/${data._id}`;
+      const url = 'http://localhost:4101/generate/challan/<%= data._id %>';
 
       fetch(url)
         .then((res) => res.json())
