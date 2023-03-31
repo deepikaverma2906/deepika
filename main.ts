@@ -194,7 +194,7 @@ app.get(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
  }
 
 
- const log = await AnalyticsLog.find(query);
+ const log = await AnalyticsLog.find(query).sort({"timestamp":-1});;
 
  log.forEach(logObj => {
 
@@ -508,7 +508,7 @@ app.get("/view/challan", async (req: any, res: any) => {
   const ipPort = req.get('host');
   const protocol = req.protocol
 
-  const data = await Challan.find();
+  const data = await Challan.find().sort({"timestamp":-1});;
   if (data) {
     data.forEach(logObj => {
 
@@ -516,13 +516,7 @@ app.get("/view/challan", async (req: any, res: any) => {
 
       logObj['LPImageURL'] = `${protocol}://${ipPort}/${logObj.LPImageURL}`
       logObj['EventType'] = logObj.EventType
-      // logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
-      // logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
-      // logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
-
-
-      //console.log("element", logObj.RLVDImageURL)
-
+      
     });
   }
   console.log("data ", data)
@@ -588,6 +582,46 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
 app.get("/challan/updatechallan/:id", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "login"));
   return res.render('updatechallan');
+});
+
+
+
+app.get(`/generate/challan/:id`, async (req: any, res: any) => {
+
+
+  // app.get(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
+  const { id } = req.params;
+  const ipPort = req.get('host');
+  const protocol = req.protocol
+
+  const log = await AnalyticsLog.findById(id);
+  console.log("log", log)
+
+  const challanNo = `${log?.timestamp}${log?.EventType}${log?.LPNumber}`
+
+  //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
+  const newLog = new Challan({
+    ChallanNo: challanNo,
+    Status: "notpaid",
+    timestamp: log?.timestamp,
+    CameraName: log?.CameraName,
+    LPImageURL: log?.LPImagePath,
+    location: log?.location,
+    CustomerName: log?.CustomerName,
+    Lat: log?.Lat,
+    Long: log?.Long,
+    EventType: log?.EventType,
+    Speed: log?.Speed,
+    LPNumber: log?.LPNumber,
+    Snapshotpath: log?.SnapshotURL,
+    RLVDImagePath: log?.RLVDImageURL,
+    VideoPath: log?.VideoURL,
+  });
+
+  console.log("emit", newLog)
+  const insertedLog = await newLog.save();
+  socketIO.emit('log_inserted', insertedLog)
+  return res.status(201).json(insertedLog);
 });
 // app.get(`/generate/challan/:id`, async (req: any, res: any) => {
 
