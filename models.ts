@@ -11,6 +11,10 @@ const AnalyticsLogSchema = new Schema({
     type: String,
     required: false,
   },
+  Confidence: {
+    type: String,
+    required: false,
+  },
 
   CameraName: {
     type: String,

@@ -328,7 +328,8 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
     RLVDImagePath: RLVDImageName,
     VideoPath: VideoName,
     ImagePath: imageName,
-    EventType: req.body.EventType
+    EventType: req.body.EventType,
+    Confidence: req.body.Confidence
   });
 
   console.log("emit", newLog)

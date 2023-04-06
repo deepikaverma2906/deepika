@@ -74,7 +74,8 @@ socket.on('log_inserted', (data) => {
           "<th>TimeStamp  </th>"+
           "<th>Event Type   </th>"+
           "<th>Camera Name   </th>"+
-          // "<th> Location   </th>"+
+          "<th> Confidence  </th>"+
+          "<th>LP Number   </th>"+
           "<th>Image   </th>"+
           "</tr>"+
           "<tr>"+
@@ -83,10 +84,11 @@ socket.on('log_inserted', (data) => {
             "<td>"+data.EventType+" </td>"+
            
             
-        
+          
             
             "<td>"+data.CameraName +"</td>"+
-        
+            "<td>"+data.Confidence+"%"+"</td>"+
+            "<td>"+data.LPNumber+" </td>"+
            
             // "<td>"+data.location+"</td>"+
             "<td colspan = 3><img src='"+data.LPImagePath+"'></td>"+
