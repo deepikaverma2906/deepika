@@ -48,17 +48,17 @@
       <option value="ANPR">ANPR</option>
       <option value="RLVD">RLVD</option>
       <option value="WrongWay">WrongWay</option>
-      <option value="NoHelment">No Helment</option>
-      <option value="TripleRiding">Triple Riding</option>
+      <option value="NoHelmet">NoHelmet</option>
+      <option value="TripleRiding">TripleRiding</option>
 
     </select>
 
          </div>
  
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
  <label for="camera-name" >Camera Name:</label>
     <input type="text"   class="form-control" id="camera-name" name="camera-name">
-      </div>
+      </div> -->
       <div class="col-md-3" aria-required="true" >
           <label for="from-date">From Date:</label>
     <input type="datetime-local" class="form-control" required id="from-date" name="from-date" >
@@ -120,12 +120,12 @@
       const EventType = apiForm.elements["EventType"].value;
       const selected = document.querySelectorAll('#EventType option:checked');
       const values = Array.from(selected).map(el => el.value);
-      const cameraName = apiForm.elements["camera-name"].value;
+      // const cameraName = apiForm.elements["camera-name"].value;
       const fromDate = apiForm.elements["from-date"].value;
       const toDate = apiForm.elements["to-date"].value;
 
-      const url = `/api/v1/analytics/logs?EventType=${values}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
-
+      // const url = `/api/v1/analytics/logs?EventType=${values}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
+      const url = `/api/v1/analytics/logs?EventType=${values}&from_date=${fromDate}&to_date=${toDate}`;
       fetch(url)
         .then(response => response.json())
         .then(data => {
@@ -140,11 +140,12 @@
           const tableBody = apiResponseTable.querySelector("tbody");
           tableBody.innerHTML=""
           const header_row = document.createElement("tr");
-          header_row.innerHTML = "<th>timestamp</th>"+
+          header_row.innerHTML = "<th>Timestamp</th>"+
         "<th>Event Type</th>"+
         "<th>Camera Name</th>"+
+        "<th>Confidence</th>"+
         "<th> LP Number</th>"+
-        "<th>LPImage</th>"
+        "<th>LP Image</th>"
         
           tableBody.append(header_row)
 
@@ -163,6 +164,7 @@
                             "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
                              "<td>"+rowData.EventType +"</td>" +
                                "<td>"+rowData.CameraName +"</td>" +
+                               "<td>"+rowData.Confidence+"%"+"</td>" +
                                "<td>"+rowData.LPNumber+"</td>" +
                                "<td><img src='"+rowData.LPImagePath+"'></td>" 
                                 //  "<td>"+rowData.Location +"</td>" 

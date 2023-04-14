@@ -5,10 +5,10 @@ export ECR_LOC=bitvividtac
 export ECR_REPO=itms
 # export ECR_REPO=bitvivid-itms-logs-dispatcher
 export LOCAL_BUILD_NAME=bitvivid-itms-api-dashboard # to be changed
-export LOCAL_BUILD_VER=0.25 # can be changed
+export LOCAL_BUILD_VER=0.28 # can be changed
 
 export PROD_BUILD_NAME=bitvivid-itms-api-dashboard # to be changed
-export PROD_BUILD_VER=0.25 # can be changed
+export PROD_BUILD_VER=0.28 # can be changed
 
 echo "dckr_pat_pWlLa4Iq9xgtZCc8s_AgHfxy5BA" | docker login -u bitvividtac --password-stdin # for Docker Hub
 # aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_LOC   # for AWS use this

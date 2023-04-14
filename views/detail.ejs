@@ -1,150 +1,135 @@
 <%- include('components/head'); -%>
+<style>
+ 
+/* /////////// */
+.product-img--main {
+   position: relative;
+  overflow: hidden;
+  /* margin-bottom: 30px; */
+  /* width: 600px;
+  height: 600px; */
+  float: left;
+  margin: 10px;
+}
 
+.product-img--main__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    -webkit-transition: -webkit-transform .5s ease-out;
+    transition: -webkit-transform .5s ease-out;
+    transition: transform .5s ease-out;
+    transition: transform .5s ease-out,-webkit-transform .5s ease-out;
+}
+
+/* ///////////////// */
+</style>
   <body>
 
     <%- include('components/nav'); -%>
-      <div id="generatebtn" >
+      <div id="generatebtn">
 
-      <div class="container bg-light mt-4  pt-2 pb-2 ">
-        <div class="row">
-          <div class="col-md-6">
-            <h3>EVENT-DETAILS</h3>
-          </div>
-          <div class="col-md-4"></div>
-          <div class="col-md-2 "><button type="submit" id="gc" class="btn btn-primary  ">Generate Chalan</button></div>
-        </div>
-
-        <hr>
-        <div style="overflow-y: scroll; max-height: 70vh;">
-        <!-- <button type="button" class="btn btn-primary w-100 ">Generate Chalan</button> -->
-        <div class="row">
-          <div class="col-md-8">
-          
-        
-
-          <% if (data.CameraName) { %>
-            <p> <b>Camera Name</b> : <%= data.CameraName %>
-            </p>
+        <div class="container bg-light mt-4  pt-2 pb-2 ">
+          <div class="row">
+            <div class="col-md-6">
+              <h3>EVENT-DETAILS</h3>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-2 ">
+              <% if (data.EventType!='ANPR' ) { %>
+                <button type="submit" id="gc" class="btn btn-primary  ">Generate Chalan</button>
+            </div>
             <% } %>
-              <% if (data.timestamp) { %>
-                <p> <b>Timestamp </b>: <%= data.timestamp %>
-                </p>
-                <% } %>
-                <% if (data.EventType) { %>
-                  <p><b>Event Type </b>: <%= data.EventType %>
+
+          </div>
+
+          <hr>
+          <div style="overflow-y: scroll; max-height: 70vh;">
+            <!-- <button type="button" class="btn btn-primary w-100 ">Generate Chalan</button> -->
+            <div class="row">
+              <div class="col-md-8">
+
+
+
+                <% if (data.CameraName) { %>
+                  <p> <b>Camera Name</b> : <%= data.CameraName %>
                   </p>
                   <% } %>
-                  <% if (data.location) { %>
-                    <p><b>Location </b>: <%= data.location %>
-                    </p>
-                    <% } %>
-                     
-
-                         
-
-                                              <% if (data.Speed) { %>
-                                                <p><b> Speed </b> : <%= data.Speed %>
-                                                </p>
-                                                <% } %>
-                                                <% if (data.LPNumber) { %>
-                                                  <p> <b>LPNumber</b> : <%= data.LPNumber %>
-                                                  </p>
-                                                  <% } %>
-                                                  <!-- <div class="col-md-3">
+                    <% if (data.timestamp) { %>
+                      <p> <b>Timestamp </b>: <%= data.timestamp %>
+                      </p>
+                      <% } %>
+                        <% if (data.EventType) { %>
+                          <p><b>Event Type </b>: <%= data.EventType %>
+                          </p>
+                          <% } %>
+                            <% if (data.location) { %>
+                              <p><b>Location </b>: <%= data.location %>
+                              </p>
+                              <% } %>
+                                <% if (data.Speed) { %>
+                                  <p><b> Speed </b> : <%= data.Speed %>
+                                  </p>
+                                  <% } %>
+                                    <% if (data.LPNumber) { %>
+                                      <p> <b>LPNumber</b> : <%= data.LPNumber %>
+                                      </p>
+                                      <% } %>
+                                        <!-- <div class="col-md-3">
                                                     <button type="submit" class="btn  btn-primary w-100 "
                                                       value="Submit">Generate challan
                                                     </button>
                                                   </div> -->
-                                                  <!-- </div> -->
+                                        <!-- </div> -->
 
 
-                                                 
-        </div>
-       
-        <div class="col-md-4">
-          <% if (data.LPImagePath) { %>
 
-            <p class="text-center w-100"><img
-                src="<%= data.LPImagePath %>" width="100%"
-                alt="imageNA">
-            </p>
-            <% } %>
-        </div>
-        
-        <div class="col-md-6">
-          <% if (data.RLVDImagePath) { %>
+              </div>
 
-            <p class="text-center w-100"><img
-                src="<%= data.RLVDImagePath %>" width="100%"
-                alt="imageNA"></p>
-            <% } %>
-        </div>
-        <div class="col-md-6">
-          <% if (data.Snapshotpath) { %>
+              <div class="col-md-4">
+                <h5>License Plate</h5>
+                <% if (data.LPImagePath) { %>
+                 
+                  <p  class="product-img--main text-center w-100" data-scale="1.6"  data-image="<%= data.LPImagePath %>"><img src="<%= data.LPImagePath %>" width="100%" alt="imageNA">
+                  </p>
+                  <% } %>
+              </div>
+              <div class="col-md-6">
+                <h5>Snapshot</h5>
+                <% if (data.Snapshotpath) { %>
+                 
+                  <p class="product-img--main text-center w-100" data-scale="1.6"  data-image="<%= data.Snapshotpath %>"><img src="<%= data.Snapshotpath %>"  width="100%" alt="imageNA"></p>
+                 
+                  <% } %>
+                  
+              </div>
+              <div class="col-md-6">
 
-            <p class="text-center w-100"><img
-                src="<%= data.Snapshotpath %>" width="100%"
-                alt="imageNA"></p>
-            <% } %>
+                <% if (data.RLVDImagePath) { %>
+                  <h5>RLVD</h5>
+                  <p class="product-img--main text-center w-100" data-scale="1.6"  data-image="<%= data.RLVDImagePath %>"><img src="<%= data.RLVDImagePath %>" width="100%"></p>
+                  <% } %>
+              </div>
+
+            </div>
+
+
+
+          </div>
+
+          <!-- </div>-->
         </div>
       </div>
 
-                                                      <!-- <table class="table ">
-                                                        <tr>
-                                                          <td>
+      <div id="activity">
+        Hello
 
-                                                            <% if (data.Snapshotpath) { %>
-
-                                                              <p class="text-center w-100"><img
-                                                                  src="<%= data.Snapshotpath %>" width="400px"
-                                                                  alt="imageNA"></p>
-                                                              <% } %>
-                                                          </td>
-                                                          <td rowspan="3">
-                                                            <% if(data.VideoPath) { %>
-                                                              <p class="w-100 px-5 "></p>
-                                                              <video width="100%" alt="NA" controls autoplay muted>
-                                                                <source src="<%= data.VideoPath %>" type="video/mp4">
-                                                              </video>
-                                                              </p>
-                                                              <% } %>
-                                                          </td>
-                                                        </tr>
-                                                        <tr>
-                                                          <td>
-                                                            <% if (data.LPImagePath) { %>
-
-                                                              <p class="text-center w-100"><img
-                                                                  src="<%= data.LPImagePath %>" width="400px"
-                                                                  alt="imageNA">
-                                                              </p>
-                                                              <% } %>
-                                                          </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                          <td>
-                                                            <% if (data.RLVDImagePath) { %>
-
-                                                              <p class="text-center w-100"><img
-                                                                  src="<%= data.RLVDImagePath %>" width="400px"
-                                                                  alt="imageNA"></p>
-                                                              <% } %>
-                                                          </td>
-                                                        </tr>
-
-                                                      </table> -->
-
-        </div>
-
-      <!-- </div>-->
-    </div> 
       </div>
-
-<div id="activity">
-  Hello
-  
-</div>
       <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4101"
         style="position: absolute; top: 0; right: 0;">
         <div class="toast-header">
@@ -173,6 +158,28 @@
 
 
   <script>
+
+// ///////////////////////////////////////
+$('.product-img--main')
+        // tile mouse actions
+        .on('mouseover', function(){
+          $(this).children('.product-img--main__image').css({'transform': 'scale('+ $(this).attr('data-scale') +')'});
+        })
+        .on('mouseout', function(){
+          $(this).children('.product-img--main__image').css({'transform': 'scale(1)'});
+        })
+        .on('mousemove', function(e){
+          $(this).children('.product-img--main__image').css({'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 +'%'});
+        })
+        // tiles set up
+        .each(function(){
+          $(this)
+            // add a image container
+            .append('<div class="product-img--main__image"></div>')
+            // set up a background image for each tile based on data-image attribute
+            .children('.product-img--main__image').css({'background-image': 'url('+ $(this).attr('data-image') +')'});
+        });
+// //////////////////////////////////////////////
     const toast = $('.toast');
     loggedIN = localStorage.getItem('ISLOGGEDIN')
     if (loggedIN != 'true') {
@@ -194,44 +201,47 @@
 
       fetch(url)
         .then((res) => res.json())
-         .then((res) => {
+        .then((res) => {
           const textNode = document.querySelector('#activity');
-                textNode.textContent = res.activity;
-        //    const tableBody = apiResponseTable.querySelector("tbody");
-        //    const header_row = document.createElement("tr");
-        //    header_row.innerHTML = "<th>timestamp</th>"+
-        //  "<th>Challan No</th>"+
-        //  "<th>Camera Name</th>"+
-        //  "<th> LPNumber</th>" +
-        //  "<th> Status</th>" +
-        //  "<th> lpImage</th>"
-        //    tableBody.append(header_row)
+          textNode.textContent = res.activity;
+          //    const tableBody = apiResponseTable.querySelector("tbody");
+          //    const header_row = document.createElement("tr");
+          //    header_row.innerHTML = "<th>timestamp</th>"+
+          //  "<th>Challan No</th>"+
+          //  "<th>Camera Name</th>"+
+          //  "<th> LPNumber</th>" +
+          //  "<th> Status</th>" +
+          //  "<th> lpImage</th>"
+          //    tableBody.append(header_row)
 
 
-        //    data.forEach(rowData => {
-        //      const row = document.createElement("tr");
-        //     /* Object.values(rowData).forEach(value => {
-        //        const cell = document.createElement("td");
-        //        console.log(value)
-        //        cell.textContent = value;
-        //        row.appendChild(cell);
-        //      }); */
+          //    data.forEach(rowData => {
+          //      const row = document.createElement("tr");
+          //     /* Object.values(rowData).forEach(value => {
+          //        const cell = document.createElement("td");
+          //        console.log(value)
+          //        cell.textContent = value;
+          //        row.appendChild(cell);
+          //      }); */
 
 
-        //      row.innerHTML = 
-        //                      "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
-        //                       "<td>"+rowData.ChallanNo +"</td>" +
-        //                         "<td>"+rowData.CameraName +"</td>" +
-        //                         "<td>"+rowData.Status +"</td>" +
-        //                           "<td>"+rowData.LPNumber +"</td>" +
+          //      row.innerHTML = 
+          //                      "<td>" +"<a href='/search/detail/"+rowData._id+"' target='_blank'>"+rowData.timestamp  +"</a>"+"</td>"+
+          //                       "<td>"+rowData.ChallanNo +"</td>" +
+          //                         "<td>"+rowData.CameraName +"</td>" +
+          //                         "<td>"+rowData.Status +"</td>" +
+          //                           "<td>"+rowData.LPNumber +"</td>" +
 
-        //                             "<td>"+"<img src='"+rowData.LPImageURL+"' alt='image' width='250px' >" +"</td>"
+          //                             "<td>"+"<img src='"+rowData.LPImageURL+"' alt='image' width='250px' >" +"</td>"
 
-        //      tableBody.appendChild(row);
-        //    });
-         })
+          //      tableBody.appendChild(row);
+          //    });
+        })
         .catch(error => console.error(error));
     });
+
+
+
   </script>
 
 

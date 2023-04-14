@@ -1,4 +1,28 @@
 <%- include('components/head'); -%>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+ 
+  }
+  td {
+    background-color: #f2f2f2;
+    color: #000;
+  }
+  tr th {
+    background-color: #000;
+    color: #f2f2f2;
+  }
+  a {
+    text-decoration: none;
+}
+</style>
   <body >
     
 
@@ -13,6 +37,8 @@
   <h6 class="border-info p-2">This is the live/Realtime Dashboard.
           the logs presented here is persistent in database.
           if you are looking for older logs please switch to the   <a href="/search"> view logs </a> tab</h6>
+          <br>
+          <h6> EVENT </h6>
     <div id="live-comp" class='container  pb-2 mb-5' style="overflow-y: scroll; max-height: 70vh;">
         
      
@@ -40,25 +66,32 @@ socket.on('log_inserted', (data) => {
 
   element.innerHTML ="<a href='/search/detail/"+data._id+"'>"+  
      
-         "<div class='alert alert-primary text-black' role='alert'>"+
+         "<div class=''>"+
 
-          "<h6> EVENT </h6>"+
+         
         "<table>"+
           "<tr>"+
-           
-            "<td colspan = 3><img src='"+data.LPImagePath+"'></td>"+
+          "<th>TimeStamp  </th>"+
+          "<th>Event Type   </th>"+
+          "<th>Camera Name   </th>"+
+          "<th> Confidence  </th>"+
+          "<th>LP Number   </th>"+
+          "<th>Image   </th>"+
           "</tr>"+
           "<tr>"+
-            "<th>timestamp</th>"+
             "<td>"+data.timestamp+" </td>"+
-         "</tr>"+
-         " <tr>"+
-            "<th>camera name</th>"+
+           
+            "<td>"+data.EventType+" </td>"+
+           
+            
+          
+            
             "<td>"+data.CameraName +"</td>"+
-         " </tr>"+
-          "<tr>"+
-            "<th> </th>"+
-            "<td>"+data.location+"</td>"+
+            "<td>"+data.Confidence+"%"+"</td>"+
+            "<td>"+data.LPNumber+" </td>"+
+           
+            // "<td>"+data.location+"</td>"+
+            "<td colspan = 3><img src='"+data.LPImagePath+"'></td>"+
           "</tr>"+
         "</table>"+
         "</div>"+
