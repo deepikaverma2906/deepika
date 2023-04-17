@@ -67,7 +67,7 @@
           // const fromDate = apiForm.elements["from-date"].value;
           // const toDate = apiForm.elements["to-date"].value;
 
-          const url = `http://localhost:4101/view/challan/`;
+          const url = `/view/challan/`;
 
           fetch(url)
             .then(response => response.json())
@@ -95,7 +95,7 @@
 
                 row.innerHTML =
                   "<td>" + "<a href='/search/detail/" + rowData._id + "' target='_blank'>" + rowData.timestamp + "</a>" + "</td>" +
-                  "<td>" + "<a href='/challan/updatechallan/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
+                  "<td>" + "<a href='/challan/detail/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
                   "<td>" + rowData.CameraName + "</td>" +
                   "<td>" + rowData.Status + "</td>" +
                   "<td>" + rowData.LPNumber + "</td>" +

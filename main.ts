@@ -580,6 +580,39 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
 
 });
 
+
+app.get("/challan/detail/:id", async (req: any, res: any) => {
+  // return res.sendFile(path.join(__dirname, "login"));
+  try {
+    const { id } = req.params;
+    const ipPort = req.get('host');
+    const protocol = req.protocol
+
+    const data = await Challan.findById(id);
+
+    // console.log("data", data);
+
+    if (data) {
+      data['RLVDImageURL'] = `${protocol}://${ipPort}/${data.RLVDImageURL}`;
+      data['VideoURL'] = `${protocol}://${ipPort}/${data.VideoURL}`;
+      data['LPImageURL'] = `${protocol}://${ipPort}/${data.LPImageURL}`;
+      data['SnapshotURL'] = `${protocol}://${ipPort}/${data.SnapshotURL}`;
+
+    }
+
+    console.log("details", data);
+
+    return res.render('detail', { data });
+  } catch (error) {
+
+    return res.render('detail', { error, message: "Cant Find the detail for requested log! " });
+
+  }
+
+
+});
+
+
 app.get("/challan/updatechallan/:id", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "login"));
   return res.render('updatechallan');
