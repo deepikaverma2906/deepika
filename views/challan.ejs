@@ -1,26 +1,43 @@
 <%- include('components/head'); -%>
   <style>
+
     table {
       border-collapse: collapse;
       width: 100%;
     }
 
-    th,
-    td {
+    th, td {
       padding: 8px;
       text-align: left;
       border-bottom: 1px solid #ddd;
-
+   
     }
-
     td {
+      white-space: nowrap;
       background-color: #f2f2f2;
       color: #000;
     }
     tr th {
+      white-space: nowrap;
       background-color: #000;
       color: #f2f2f2;
     }
+    .searchBtn{
+      margin-top: 24px;
+    }
+    td img{
+      max-height: 87px;
+    min-height: 87px;
+    }
+    a{
+      text-decoration: none;
+      color: #000;
+
+    }
+    a:hover {
+      color: #1ca7ac;
+    }
+
   </style>
 
   <body>
@@ -37,15 +54,15 @@
 
         <form id="api-form">
         </form>
+        <div class="table-responsive" style="overflow-y: scroll; max-height: 84vh;">
+          <table id="api-response">
+            <thead>
 
-        <table id="api-response">
-          <thead>
-
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
 
 
 
@@ -78,7 +95,7 @@
                 "<th>Challan No</th>" +
                 "<th>Camera Name</th>" +
                 "<th>LP Number</th>" +
-                "<th>Status</th>" +                               
+                "<th>Status</th>" +
                 "<th>LP Image</th>"
               tableBody.append(header_row)
 
@@ -94,8 +111,8 @@
 
 
                 row.innerHTML =
-                  "<td>" + "<a href='/search/detail/" + rowData._id + "' target='_blank'>" + rowData.timestamp + "</a>" + "</td>" +
-                  "<td>" + "<a href='/challan/detail/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
+                  "<td>" + rowData.timestamp + "</a>" + "</td>" +
+                  "<td>" + "<a href='/challan/challan-detail/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
                   "<td>" + rowData.CameraName + "</td>" +
                   "<td>" + rowData.Status + "</td>" +
                   "<td>" + rowData.LPNumber + "</td>" +

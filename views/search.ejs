@@ -13,12 +13,29 @@
    
     }
     td {
+      white-space: nowrap;
       background-color: #f2f2f2;
       color: #000;
     }
     tr th {
+      white-space: nowrap;
       background-color: #000;
       color: #f2f2f2;
+    }
+    .searchBtn{
+      margin-top: 24px;
+    }
+    td img{
+      max-height: 87px;
+    min-height: 87px;
+    }
+    a{
+      text-decoration: none;
+      color: #000;
+
+    }
+    a:hover {
+      color: #1ca7ac;
     }
   </style>
  
@@ -69,9 +86,12 @@
     <label for="to-date">To Date:</label>
     <input type="datetime-local"  class="form-control" required  id="to-date" name="to-date" >
       </div>
-   
+      <div class="col-md-3">
+        <button type="submit" class="btn  btn-primary w-100 searchBtn" value="Submit"> Search
+    </button>
+    </div> 
       </div>
-      <div class="row my-4">
+      <!-- <div class="row my-4">
       
  <div class="col-md-3">
 
@@ -82,7 +102,7 @@
           <button type="submit" class="btn  btn-primary w-100 " value="Submit"> Search
       </button>
       </div> 
-      </div>
+      </div> -->
      
 <hr style="opacity: 1;color: #000;">
    
@@ -90,7 +110,8 @@
    </div>
   
   </form>
-<div style="overflow-y: scroll; max-height: 60vh;">
+ 
+<div class="table-responsive" style="overflow-y: scroll; max-height: 50vh;">
 
 
   <table id="api-response">
@@ -166,7 +187,7 @@
                                "<td>"+rowData.CameraName +"</td>" +
                                "<td>"+rowData.Confidence+"%"+"</td>" +
                                "<td>"+rowData.LPNumber+"</td>" +
-                               "<td><img src='"+rowData.LPImagePath+"'></td>" 
+                               "<td><img  src='"+rowData.LPImagePath+"'></td>" 
                                 //  "<td>"+rowData.Location +"</td>" 
                                    //<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
 
