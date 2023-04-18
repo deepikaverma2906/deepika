@@ -34,7 +34,7 @@ app.use(express.static('public'));
 app.set('views', path.join(__dirname, 'views'));
 // app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'ejs')
-app.engine('ejs', require('ejs').renderFile); 
+app.engine('ejs', require('ejs').renderFile);
 
 app.use(router);
 
@@ -174,43 +174,43 @@ app.get('/', (req: any, res: { redirect: (arg0: string) => void; }) => {
 
 app.get(`${base_api_url}/analytics/logs`, async (req: any, res: any) => {
 
- // console.log(req.get('host'))
- const ipPort = req.get('host');
- const protocol = req.protocol
- // console.log(req.hostname, req.port, req.protocol)
+  // console.log(req.get('host'))
+  const ipPort = req.get('host');
+  const protocol = req.protocol
+  // console.log(req.hostname, req.port, req.protocol)
 
- const {  EventType, cameraname, from_date, to_date } = req.query
-   
- const query: any = {};
+  const { EventType, cameraname, from_date, to_date } = req.query
 
- if (EventType) query.EventType = {
+  const query: any = {};
 
-   $in:EventType.split(',')
- };
- if (cameraname) query.CameraName = cameraname;
- if (from_date && to_date) query.timestamp = {
-   $gte: from_date,
-   $lte: to_date
- }
+  if (EventType) query.EventType = {
 
-
- const log = await AnalyticsLog.find(query).sort({"timestamp":-1});;
-
- log.forEach(logObj => {
-
-   logObj['RLVDImagePath'] = `${protocol}://${ipPort}/${logObj.RLVDImagePath}`;
-   logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
-   logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
-   logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+    $in: EventType.split(',')
+  };
+  if (cameraname) query.CameraName = cameraname;
+  if (from_date && to_date) query.timestamp = {
+    $gte: from_date,
+    $lte: to_date
+  }
 
 
-   //console.log("element", logObj.RLVDImageURL)
+  const log = await AnalyticsLog.find(query).sort({ "timestamp": -1 });;
 
- });
+  log.forEach(logObj => {
 
- return res.status(200).json(log);
+    logObj['RLVDImagePath'] = `${protocol}://${ipPort}/${logObj.RLVDImagePath}`;
+    logObj['VideoPath'] = `${protocol}://${ipPort}/${logObj.VideoPath}`;
+    logObj['LPImagePath'] = `${protocol}://${ipPort}/${logObj.LPImagePath}`;
+    logObj['Snapshotpath'] = `${protocol}://${ipPort}/${logObj.Snapshotpath}`;
+
+
+    //console.log("element", logObj.RLVDImageURL)
 
   });
+
+  return res.status(200).json(log);
+
+});
 
 
 
@@ -338,9 +338,9 @@ app.post(`${base_api_url}/analytics/logs`, upload, async (req: any, res: any) =>
   insertedLog['VideoPath'] = `${protocol}://${ipPort}/${insertedLog.VideoPath}`;
   insertedLog['LPImagePath'] = `${protocol}://${ipPort}/${insertedLog.LPImagePath}`;
   insertedLog['Snapshotpath'] = `${protocol}://${ipPort}/${insertedLog.Snapshotpath}`;
-   let detailUrl = `${protocol}://${ipPort}/search/detail/${insertedLog._id}`;
+  let detailUrl = `${protocol}://${ipPort}/search/detail/${insertedLog._id}`;
   socketIO.emit('log_inserted', insertedLog)
-  return res.status(201).json({data: insertedLog, url: detailUrl });
+  return res.status(201).json({ data: insertedLog, url: detailUrl });
 });
 
 app.put(`${base_api_url}/analytics/logs/:id`, async (req: any, res: any) => {
@@ -509,7 +509,16 @@ app.get("/view/challan", async (req: any, res: any) => {
   const ipPort = req.get('host');
   const protocol = req.protocol
 
-  const data = await Challan.find().sort({"timestamp":-1});;
+  const perPage = req.query.perPage
+  const page = req.query.page
+
+  console.log("perPage", perPage, "page ", page)
+
+
+  const data = await Challan.find().sort({ "timestamp": -1 })
+    .skip((perPage * page) - perPage)
+    .limit(perPage)
+
   if (data) {
     data.forEach(logObj => {
 
@@ -517,7 +526,7 @@ app.get("/view/challan", async (req: any, res: any) => {
 
       logObj['LPImageURL'] = `${protocol}://${ipPort}/${logObj.LPImageURL}`
       logObj['EventType'] = logObj.EventType
-      
+
     });
   }
   console.log("data ", data)
