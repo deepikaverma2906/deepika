@@ -661,10 +661,10 @@ app.get("/challan/detail/:id", async (req: any, res: any) => {
 
     console.log("details", data);
 
-    return res.render('detail', { data });
+    return res.render('challan-detail', { data });
   } catch (error) {
 
-    return res.render('detail', { error, message: "Cant Find the detail for requested log! " });
+    return res.render('challan-detail', { error, message: "Cant Find the detail for requested log! " });
 
   }
 
