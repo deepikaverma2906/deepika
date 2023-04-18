@@ -609,10 +609,26 @@ app.get("/noHelmet/:id", async (req: any, res: any) => {
 
     }
 
-    if(data?.EventType=='RLVD')
-    console.log("noHelmet", data);
+    console.log("data ", data?.EventType)
 
-    return res.render('noHelmet', { data });
+    if (data?.EventType == 'RLVD') {
+
+      return res.render('rlvd', { data });
+    } else if (data?.EventType == 'TripleRiding') {
+
+      return res.render('tripleRiding', { data });
+
+    }
+    else if (data?.EventType == 'NoHelmet') {
+
+      return res.render('noHelmet', { data });
+
+    }
+
+
+    return res.render('about', { data });
+
+
   } catch (error) {
 
     return res.render('detail', { error, message: "Cant Find the detail for requested log! " });
