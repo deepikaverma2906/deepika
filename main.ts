@@ -507,7 +507,7 @@ app.get("/view/challan", async (req: any, res: any) => {
   console.log("challan")
   const { id } = req.params;
   const ipPort = req.get('host');
-  const protocol = req.protocol
+  const protocol = req.protoc
 
   const perPage = req.query.perPage
   const page = req.query.page
@@ -588,6 +588,40 @@ app.get("/search/detail/:id", async (req: any, res: any) => {
 
 
 });
+
+
+app.get("/noHelmet/:id", async (req: any, res: any) => {
+  // return res.sendFile(path.join(__dirname, "login"));
+  try {
+    const { id } = req.params;
+    const ipPort = req.get('host');
+    const protocol = req.protocol
+
+    const data = await Challan.findById(id);
+
+    // console.log("data", data);
+
+    if (data) {
+      data['RLVDImageURL'] = `${protocol}://${ipPort}/${data.RLVDImageURL}`;
+      data['VideoURL'] = `${protocol}://${ipPort}/${data.VideoURL}`;
+      data['LPImageURL'] = `${protocol}://${ipPort}/${data.LPImageURL}`;
+      data['SnapshotURL'] = `${protocol}://${ipPort}/${data.SnapshotURL}`;
+
+    }
+
+    if(data?.EventType=='RLVD')
+    console.log("noHelmet", data);
+
+    return res.render('noHelmet', { data });
+  } catch (error) {
+
+    return res.render('detail', { error, message: "Cant Find the detail for requested log! " });
+
+  }
+
+
+});
+
 
 
 app.get("/challan/detail/:id", async (req: any, res: any) => {

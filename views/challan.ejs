@@ -43,6 +43,7 @@
 
           </thead>
           <tbody>
+            <p><a href="/noHelmet/" class="btn btn-primary" role="button">challan</a></p> 
           </tbody>
         </table>
 
@@ -77,8 +78,8 @@
               header_row.innerHTML = "<th>Timestamp</th>" +
                 "<th>Challan No</th>" +
                 "<th>Camera Name</th>" +
-                "<th>LP Number</th>" +
-                "<th>Status</th>" +                               
+                "<th>Status</th>" +
+                "<th>LP Number</th>" +                               
                 "<th>LP Image</th>"
               tableBody.append(header_row)
 
@@ -95,7 +96,7 @@
 
                 row.innerHTML =
                   "<td>" + "<a href='/search/detail/" + rowData._id + "' target='_blank'>" + rowData.timestamp + "</a>" + "</td>" +
-                  "<td>" + "<a href='/challan/detail/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
+                  "<td>" + "<a href='/noHelmet/" + rowData._id + "' target='_blank'>" + rowData.ChallanNo + "</td>" +
                   "<td>" + rowData.CameraName + "</td>" +
                   "<td>" + rowData.Status + "</td>" +
                   "<td>" + rowData.LPNumber + "</td>" +
