@@ -67,15 +67,7 @@
         
     </div>
     
-    <div>
-        <h3>Intelligent Traffic Management System(ITMS)</h3>
-        <img src="images/image.jpg" alt="Italian Trulli" class="center">
-        <div class="notice">नोटिस </div> 
-        <div>सर  / मैडम ,</div>
-        Intelligent Traffic Management System द्वारा पहचान की है की आप /आपके  ड्राइवर  द्वारा वाहन नंबर 
-        MP04HA6313 को  चलाते हुए , निम्न स्थान /दिनांक /समय  पर यातायात  के  नियमों  का उल्लंघन  किया गया है 
-        जो  निम्न  प्रकार  से  मोटर  यान  अधिनियम 1988 के  अन्तर्गत दंडनीय  अपराध  है | 
-    </div>
+  
     <div>
         <body>
             <div class="container">
@@ -100,12 +92,21 @@
                     <tbody>
                         <tr>
                             <td><%= data.ChallanNo %></td>
-                            <td>MP37MV6863</td>
-                            <td>Mar 18, 2023
-                                09:28:54 AM</td>
-                            <td>Mar 21, 2023
-                                03:24:52 PM</td>
-                                <td>Roshanpura1</td>
+                            <td>
+                                <%= data.ChallanNo %>
+                            </td>
+                            <td>
+                                <%= data.LPNumber %>
+                            </td>
+                            <td>
+                                <%= data.timestamp %>
+                            </td>
+                            <td>
+                                <%= data.timestamp %>
+                            </td>
+                            <td>
+                                <%= data.Location %>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
