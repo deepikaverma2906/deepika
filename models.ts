@@ -88,7 +88,7 @@ const AnalyticsLogSchema = new Schema({
 });
 
 const ChallanSchema = new Schema({
-  Timestamp: {
+  timestamp: {
     type: Date,
     required: false,
   },
