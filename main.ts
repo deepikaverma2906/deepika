@@ -701,7 +701,7 @@ const challan =  await  Challan.findOne({
 })
 if(challan){
   const responseData = {
-    message:"Challan already generated ",
+    message:"Challan already generated",
   data:{},
   status:204
 }
@@ -741,7 +741,7 @@ return res.end(jsonContent);
   const insertedLog = await newLog.save();
   socketIO.emit('log_inserted', insertedLog)
   const responseData = {
-    message:"Challan successfully generated ",
+    message:"Challan successfully generated",
   data:insertedLog,
   status:201
 }

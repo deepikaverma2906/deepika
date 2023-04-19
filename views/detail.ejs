@@ -42,18 +42,20 @@
             <div class="col-md-4"></div>
             <div class="col-md-2 ">
               <!-- <% if (data.EventType!='ANPR' ) { %> -->
-                <!-- <button type="submit" id="gc" class="btn btn-primary  ">Generate Chalan</button> -->
-                <form id="api-form">
-                  <div class="form-group">
-               
-                    <% if (data.EventType!='ANPR' ) { %>
-                        <button type="submit" class="btn  btn-primary w-100 searchBtn" value="Submit"> Generate Challan
-                        </button>
-      
-                        <% } %>
-                   </div>
-      
-                </form>
+              <!-- <button type="submit" id="gc" class="btn btn-primary  ">Generate Chalan</button> -->
+              <form id="api-form">
+                <div class="form-group">
+                  <p id="yy" style="display:none"><%= data._id %>
+                  </p>
+
+                  <% if (data.EventType!='ANPR' ) { %>
+                    <button type="submit" class="btn  btn-primary w-100 searchBtn" value="Submit"> Generate Challan
+                    </button>
+
+                    <% } %>
+                </div>
+
+              </form>
             </div>
             <!-- <% } %> -->
 
@@ -70,7 +72,7 @@
 
                 </div>
               </div>
-             </div>
+            </div>
 
           </form>
           <hr>
@@ -130,7 +132,8 @@
                 <% if (data.Snapshotpath) { %>
 
                   <p class="product-img--main text-center w-100" data-scale="1.6" data-image="<%= data.Snapshotpath %>">
-                    <img src="<%= data.Snapshotpath %>" width="100%" alt="imageNA"></p>
+                    <img src="<%= data.Snapshotpath %>" width="100%" alt="imageNA">
+                  </p>
 
                   <% } %>
 
@@ -182,10 +185,9 @@
             toast.toast('show');
           })
         </script> -->
-      
 
 
-<!-- <script></script> -->
+        <!-- <script></script> -->
   </body>
 
 
@@ -219,28 +221,38 @@
 
     }
     const apiForm = document.getElementById("api-form");
-          const apiResponseTable = document.getElementById("api-response");
+    const apiResponseTable = document.getElementById("api-response");
 
-          apiForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+    apiForm.addEventListener("submit", (event) => {
+      event.preventDefault();
 
+      const x = document.getElementById("yy").innerText;
+      console.log("challan", x);
 
-          
-            const url = `/generate/challan/"+data._id+"`
-            fetch(url)
-              .then(response => response.json())
-              .then(data => {
-                console.log(data);
-                if(data){
-                  console.log("data is not available");
-                  alert("challan generate successfully");
-                }
-                // alert("challan generate successfully");
-                
-              
-                });
-              })
-        .catch(error => console.error(error));
+      const url = `/generate/challan/${x}`
+      console.log("Url", url);
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          console.log("msg", data.message);
+          // let result = data.message.includes("world", 12);
+          if (data.message === "Challan successfully generated") {
+            // console.log("data is not available");
+            console.log("msg", data.message);
+            alert("Challan Generated Successfully");
+
+          } else if (data.message === "Challan already generated") {
+            console.log("msg", data.message);
+            alert("Challan Already Generated");
+          }
+          // alert("challan generate successfully");
+
+          x = null;
+          console.log("after", x)
+        });
+    })
+      .catch(error => console.error(error));
     // });
 
 
