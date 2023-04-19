@@ -700,7 +700,16 @@ const challan =  await  Challan.findOne({
   "AnalyticsId" : { "$in": log?._id  },
 })
 if(challan){
-  return res.send("challan already generated!!!")
+  const responseData = {
+    message:"Challan already generated ",
+  data:{},
+  status:204
+}
+ 
+const jsonContent = JSON.stringify(responseData);
+return res.end(jsonContent);
+ 
+  // return res.send("challan already generated!!!")
 }
 
   const challanNo = `${log?.timestamp}${log?.EventType}${log?.LPNumber}`
@@ -726,10 +735,20 @@ if(challan){
     
   });
 
+
+  
   console.log("emit", newLog)
   const insertedLog = await newLog.save();
   socketIO.emit('log_inserted', insertedLog)
-  return res.status(201).json(insertedLog)
+  const responseData = {
+    message:"Challan successfully generated ",
+  data:insertedLog,
+  status:201
+}
+ 
+const jsonContent = JSON.stringify(responseData);
+return res.end(jsonContent);
+  // return res.status(201).json(insertedLog)
   // .send({message: "Challan Successfully Generated!!!"});;
 });
 // app.get(`/generate/challan/:id`, async (req: any, res: any) => {
