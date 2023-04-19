@@ -547,6 +547,12 @@ app.get("/challan", (req: any, res: any) => {
 });
 
 
+app.get("/generateChallan", (req: any, res:any) => {
+
+  return res.render('generateChallan');
+
+})
+
 app.get("/aboutus", (req: any, res: any) => {
   // return res.sendFile(path.join(__dirname, "logout"));
 
@@ -714,7 +720,8 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
   console.log("emit", newLog)
   const insertedLog = await newLog.save();
   socketIO.emit('log_inserted', insertedLog)
-  return res.status(201).json(insertedLog);
+  return res.status(201).json(insertedLog)
+  // .send({message: "Challan Successfully Generated!!!"});;
 });
 // app.get(`/generate/challan/:id`, async (req: any, res: any) => {
 
