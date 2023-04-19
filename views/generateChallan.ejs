@@ -1,0 +1,183 @@
+<%- include('components/head'); -%>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+
+    }
+
+    td {
+      white-space: nowrap;
+      background-color: #f2f2f2;
+      color: #000;
+    }
+
+    tr th {
+      white-space: nowrap;
+      background-color: #000;
+      color: #f2f2f2;
+    }
+
+    .searchBtn {
+      margin-top: 24px;
+    }
+
+    td img {
+      max-height: 87px;
+      min-height: 87px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+
+    }
+
+    a:hover {
+      color: #1ca7ac;
+    }
+  </style>
+
+  <body>
+
+
+    <%- include('components/nav'); -%>
+
+
+      <div class="container bg-white mt-4 pt-4 pb-5" style="border-radius: 20px;">
+
+
+
+
+
+        <form id="api-form">
+          <div class="form-group">
+
+            <div class="row">
+            
+              <div class="col-md-3">
+                <button type="submit" class="btn  btn-primary w-100 searchBtn" value="Submit"> Generate Challan
+                </button>
+                
+              </div>
+            </div>
+            <!-- <div class="row my-4">
+      
+ <div class="col-md-3">
+
+      </div>
+      <div class="col-md-3"></div>
+      <div class="col-md-3"></div>
+      <div class="col-md-3">
+          <button type="submit" class="btn  btn-primary w-100 " value="Submit"> Search
+      </button>
+      </div> 
+      </div> -->
+
+            <hr style="opacity: 1;color: #000;">
+
+
+          </div>
+
+        </form>
+
+        <div class="table-responsive" style="overflow-y: scroll; max-height: 50vh;">
+
+
+          <table id="api-response">
+            <thead>
+
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+
+        </div>
+
+
+        <script>
+          const toast = $('.toast');
+          loggedIN = localStorage.getItem('ISLOGGEDIN')
+          if (loggedIN != 'true') {
+            window.location.href = '/login';
+
+          }
+          const apiForm = document.getElementById("api-form");
+          const apiResponseTable = document.getElementById("api-response");
+
+          apiForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+           
+
+            // const url = `/api/v1/analytics/logs?EventType=${values}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
+            const url = `/generate/challan/64229398614e830cb469211b`;
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                if (data.length < 1) {
+
+                  const tableBody = apiResponseTable.querySelector("tbody");
+                  tableBody.innerHTML = ""
+                  tableBody.innerHTML = "<strong> NO LOGS FOUND FOR GIVEN CRITERIA. PLEASE UPDATE THE CRITERIA AND TRY AGAIN</strong>"
+                  return
+                }
+
+                const tableBody = apiResponseTable.querySelector("tbody");
+                tableBody.innerHTML = ""
+                const header_row = document.createElement("tr");
+                header_row.innerHTML = "<th>Timestamp</th>" +
+                  "<th>Event Type</th>" +
+                  "<th>Camera Name</th>" +
+                  "<th>Confidence</th>" +
+                  "<th> LP Number</th>" +
+                  "<th>LP Image</th>"
+
+                tableBody.append(header_row)
+
+
+                // data.forEach(rowData => {
+                  const row = document.createElement("tr");
+                  /* Object.values(rowData).forEach(value => {
+                     const cell = document.createElement("td");
+                     console.log(value)
+                     cell.textContent = value;
+                     row.appendChild(cell);
+                   }); */
+
+
+                  row.innerHTML =
+                    "<td>" + "<a href='/search/detail/" + data._id + "' target='_blank'>" + data.timestamp + "</a>" + "</td>" +
+                    "<td>" + data.EventType + "</td>" +
+                    "<td>" + data.CameraName + "</td>" +
+                    "<td>" + data.Confidence + "%" + "</td>" +
+                    "<td>" + data.LPNumber + "</td>" +
+                    "<td><img  src='" + data.LPImagePath + "'></td>"
+                  //  "<td>"+rowData.Location +"</td>" 
+                  //<td>"+"<img src='"+rowData.LPImagePath+"' alt='image' width='250px' >" +"</td>"
+
+                  tableBody.appendChild(row);
+                });
+              })
+              .catch(error => console.error(error));
+        //   });
+        </script>
+
+
+      </div>
+
+
+
+
+
+      <%- include('components/scripts'); -%>
+  </body>
+
+  </html>
