@@ -225,14 +225,16 @@
             event.preventDefault();
 
 
-            // const url = `/api/v1/analytics/logs?EventType=${values}&cameraname=${cameraName}&from_date=${fromDate}&to_date=${toDate}`;
-            // <a href='/search/detail/"+data._id+"'>"+  
-              // const url = `/search/detail/"+data._id+"`
+          
             const url = `/generate/challan/"+data._id+"`
             fetch(url)
               .then(response => response.json())
               .then(data => {
                 console.log(data);
+                if(data){
+                  console.log("data is not available");
+                  alert("challan generate successfully");
+                }
                 // alert("challan generate successfully");
                 
               
