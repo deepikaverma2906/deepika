@@ -626,7 +626,7 @@ app.get("/noHelmet/:id", async (req: any, res: any) => {
     }
 
 
-    return res.render('about', { data });
+    return res.render('tripleRiding', { data });
 
 
   } catch (error) {

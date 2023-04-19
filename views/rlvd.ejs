@@ -1,82 +1,115 @@
 <html>
-    <head>
-        <title>intelligent Traffic Management System(ITMS)</title> 
-        <link rel="stylesheet" type="text/css" href="style.css">
-        
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-		}
 
-		.container {
-			max-width: 800px;
-			margin: 0 auto;
-			padding: 20px;
-			border: 1px solid #ccc;
-		}
+<head>
+    <title>intelligent Traffic Management System(ITMS)</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-		h1 {
-			text-align: center;
-		}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 20px;
-		}
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
 
-		td, th {
-			padding: 10px;
-			text-align: left;
-			border: 1px solid #ccc;
-		}
+        h1 {
+            text-align: center;
+        }
 
-		thead {
-			background-color: #f2f2f2;
-		}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
 
-		.amount {
-			text-align: right;
-		}
+        td,
+        th {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
 
-		.signature {
-			margin-top: 40px;
-			text-align: center;
-		}
+        thead {
+            background-color: #f2f2f2;
+        }
 
-		.signature img {
-			max-width: 200px;
-			height: auto;
-			margin-top: 10px;
-		}
+        .amount {
+            text-align: right;
+        }
+        .signature {
 
-		.note {
-			margin-top: 20px;
-			font-size: 12px;
-			text-align: center;
-			color: #999;
-		}
-	</style>
+text-align: left;
+}
 
-    </head>
+
+
+.signature img {
+width: 100%;
+}
+        /* .signature {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .signature img {
+            max-width: 200px;
+            height: auto;
+            margin-top: 10px;
+        } */
+
+        .note {
+            margin-top: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #999;
+        }
+        .imgs {
+    margin-right: 10px;
+    float: left;
+}
+.logoImg{
+    text-align: center;
+}
+.logoImg img{
+    width: 20%;
+}
+.notice{
+    text-align: center;
+}
+    </style>
+
+</head>
+
 <body>
-    <div class="sheet-outer A4">
-        
-        
+    <div id="demo" class="sheet-outer A4">
+
+
     </div>
-    
-  
+
+
     <div>
+
         <body>
             <div class="container">
                 <h1>intelligent traffic management system (itms)</h1>
-                <img src="/images/Madhyapradeshpoliceoriginalmono.png" width="50" height="100" alt="Paris" class="center">
-        
+                <div class="logoImg">
+                <img src="/images/mp-logo.png"  alt="Paris">
+                </div>
+                   
+                <div class="notice">
                 <h2>नोटिस</h2>
+                </div>
                 <p1>सर/मैडम,</p1>
-                <br>    Intelligent Traffic Management System द्वारा पहचान की है कि आप / आपके ड्राइवर द्वारा वाहन नंबर MP37MV6863 को चलाते हुए, निम्न स्थान / दिनांक / समय पर यातायात के नियमों का उल्लंघन किया गया है। जो निम्न प्रकार से मोटर यान अधिनियम 1988 के अन्तर्गत दंडनीय अपराध है ।</br>
+                <br> Intelligent Traffic Management System द्वारा पहचान की है कि आप / आपके ड्राइवर द्वारा वाहन नंबर
+                MP37MV6863 को चलाते हुए, निम्न स्थान / दिनांक / समय पर यातायात के नियमों का उल्लंघन किया गया है। जो
+                निम्न प्रकार से मोटर यान अधिनियम 1988 के अन्तर्गत दंडनीय अपराध है ।</br>
                 <table>
                     <thead>
                         <tr>
@@ -91,10 +124,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><%= data.ChallanNo %></td>
                             <td>
                                 <%= data.ChallanNo %>
                             </td>
+                          
                             <td>
                                 <%= data.LPNumber %>
                             </td>
@@ -111,32 +144,42 @@
                     </tbody>
                 </table>
 
-      <div class="row"> 
-        <div class="column">
-          <img src="images/WhatsApp Image 2023-03-30 at 4.41.39 PM.jpeg" style="width:80%" >
-        </div>
-        <div class="column">
-          <img src="images/WhatsApp Image 2023-03-30 at 4.42.46 PM.jpeg" style="width:80%">
-        </div>
-       
-      </div>
-      <div class="niyam">
-      <p>
-       <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> 
-       नियमों  का  उलंघन :-
-       <br><br> 1. संकेत  का उललंघन &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-       &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;धारा  199 /177 
-       &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
-       &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; शमन  शुल्क 500.0रुपये 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="imgs">
+                            <img src="/images/rlvd1.jpeg">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <img src="/images/rlvd2.jpeg">
+                    </div>
 
-    </p>
-    इस  हेतु  आप शमन  शुल्क  500 रुपये  एम. पी. ऑनलाइन  के माध्यम से एम. पी. ऑनलाइन पोर्टल <br>(http://wwww.mponline.gov.in/portal/Services/Challan/Home.aspx)
+                </div>
+                <div class="niyam">
+                    <p>
+                        <br>
+                        नियमों का उलंघन :-
+                        <br><br> 1. संकेत का उललंघन &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp; &nbsp;धारा 199 /177
+                        &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                        &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp; &nbsp; शमन शुल्क 500.0रुपये
 
-    मे  चालान  देखने  के  लिए एवम चालान जमा करने के लिए<br> एम. पी. ऑनलाइन  रजिस्टर KIOSK मे 15 दिवस के अंदर शमन शुल्क जमा करे  एवम <br>रसीद प्राप्त करे अन्यथा आपके विरुद्घ अग्रिम वैधानिक /क़ानूनी कार्यवाही की जाएगी। 
-</div>
+                    </p>
+                    इस हेतु आप शमन शुल्क 500 रुपये एम. पी. ऑनलाइन के माध्यम से एम. पी. ऑनलाइन पोर्टल
+                    <br>(http://wwww.mponline.gov.in/portal/Services/Challan/Home.aspx)
 
-<table>
-    <!-- <tr>
+                    मे चालान देखने के लिए एवम चालान जमा करने के लिए<br> एम. पी. ऑनलाइन रजिस्टर KIOSK मे 15 दिवस के अंदर
+                    शमन शुल्क जमा करे एवम <br>रसीद प्राप्त करे अन्यथा आपके विरुद्घ अग्रिम वैधानिक /क़ानूनी कार्यवाही की
+                    जाएगी।
+                </div>
+
+                <table>
+                    <!-- <tr>
       <th>Challan Number</th>
       <th>Vehicle Number</th>
       <th>Date & Time of Detection</th>
@@ -144,13 +187,14 @@
       <th>Location</th>
     </tr>
     <tr> -->
-      <td><div class="rectangle">
-        प्रति ,<br>
-        ANIL RAIKWAR<br>
-        HNO-282 VIDISHA ROAD, KALYAN NAGAR, KUTEER NAG<br>
-    AR BHOPAL, BHOPAL<br>
-    मो  : 9893079497</td>
-      <!-- <td>MP04HA6313</td>
+                    <td>
+                        <div class="rectangle">
+                            प्रति ,<br>
+                            &emsp;&emsp;&emsp;&emsp;  <%= data.CustomerName %><br>
+                            &emsp;&emsp;&emsp;&emsp; <%= data.Location %><br>
+                            &emsp;&emsp;&emsp;&emsp; मो : 9893079497
+                    </td>
+                    <!-- <td>MP04HA6313</td>
       <td>Dec 10, 2022
         04:33:27 PM
         </td>
@@ -158,19 +202,21 @@
             08:47:43 PM
             </td>
             <td>vallabh_bhawan1</td> -->
-    </tr>
-   
-  </table>
-  <div class="prbhari">
-  प्रभारी (Traffic police)
-  ITMS-BSCDCL BHOPAL(M.P.)
-  Contact-0755-2477705
-  </div>
-  <h5>This is system genrated challan</h5>
+                    </tr>
 
-      
-      
+                </table>
+                <div class="prbhari">
+                    प्रभारी (Traffic police)
+                    ITMS-BSCDCL BHOPAL(M.P.)
+                    Contact-0755-2477705
+                </div>
+                <h5>This is system genrated challan</h5>
 
-    </div>
-</body>
+
+
+
+            </div>
+          
+        </body>
+
 </html>
