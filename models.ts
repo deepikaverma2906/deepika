@@ -98,6 +98,11 @@ const ChallanSchema = new Schema({
     required: false,
   },
 
+  AnalyticsId: {
+    type:String,
+    required:false
+  },
+
   Status: {
     type: String,
     required: false
