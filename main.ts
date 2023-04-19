@@ -694,12 +694,20 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
   const protocol = req.protocol
 
   const log = await AnalyticsLog.findById(id);
-  console.log("log", log)
+// const challan = await Challan.findOne({AnalyticsId:log?._id});
+
+const challan =  await  Challan.findOne({
+  "AnalyticsId" : { "$in": log?._id  },
+})
+if(challan){
+  return res.send("challan already generated!!!")
+}
 
   const challanNo = `${log?.timestamp}${log?.EventType}${log?.LPNumber}`
 
   //  const deletedLog = await AnalyticsLog.findByIdAndDelete(id);
   const newLog = new Challan({
+    AnalyticsId: log?._id,
     ChallanNo: challanNo,
     Status: "notpaid",
     timestamp: log?.timestamp,
@@ -714,7 +722,8 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
     LPNumber: log?.LPNumber,
     Snapshotpath: log?.SnapshotURL,
     RLVDImagePath: log?.RLVDImageURL,
-    VideoPath: log?.VideoURL,
+    VideoPath: log?.VideoURL
+    
   });
 
   console.log("emit", newLog)
