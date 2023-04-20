@@ -3,7 +3,7 @@
 
 <head>
 	<title>intelligent traffic management system (itms)</title>
-	<h2></h2>
+	
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -13,14 +13,16 @@
 
 		.container {
 			max-width: 800px;
-			margin: 0 auto;
+			margin: 30px auto;
 			padding: 20px;
 			border: 1px solid #ccc;
+
 		}
 
 		h1 {
 			text-align: center;
 		}
+
 		h2 {
 			text-align: center;
 		}
@@ -48,14 +50,14 @@
 
 		.signature {
 
-text-align: left;
-}
+			text-align: left;
+		}
 
 
 
-.signature img {
-width: 100%;
-}
+		.signature img {
+			width: 100%;
+		}
 
 		.note {
 			margin-top: 20px;
@@ -70,30 +72,52 @@ width: 100%;
 			margin-right: auto;
 			width: 20%;
 		}
-		.logoImg{
-    text-align: center;
-}
-.logoImg img{
-    width: 20%;
-}
-.notice{
-    text-align: center;
-}
+
+		.logoImg {
+			text-align: center;
+		}
+
+		.logoImg img {
+			width: 20%;
+		}
+
+		.notice {
+			text-align: center;
+		}
+
+		.saveIcon {
+			text-align: right;
+		}
+
+		.saveIcon button {
+			font-size: 16px;
+			/* box-shadow: none; */
+			padding: 7px 28px;
+			color: #fff;
+			background-color: #275ba8;
+			cursor: pointer;
+		}
+		
 	</style>
 </head>
 
 <body>
 	<div class="container">
-		<h1>intelligent traffic management system (itms)</h1>
-                <div class="logoImg">
-                <img src="/images/mp-logo.png"  alt="Paris">
-                </div>
-                   
-                <div class="notice">
-                <h2>नोटिस</h2>
-                </div>
+		<div class="saveIcon">
+			<button id="printButton" onclick="print()">Save</button>
+		</div>
+		<h1>Intelligent Traffic Management System (ITMS)</h1>
+		<div class="logoImg">
+			<img src="/images/mp-logo.png" alt="logo">
+		</div>
+
+		<div class="notice">
+			<h2>नोटिस</h2>
+		</div>
 		<p1>सर/मैडम,</p1>
-		<br>    Intelligent Traffic Management System द्वारा पहचान की है कि आप / आपके ड्राइवर द्वारा वाहन नंबर MP04MV2457 को चलाते हुए, निम्न स्थान / दिनांक / समय पर यातायात के नियमों का उल्लंघन किया गया है। जो निम्न प्रकार से मोटर यान अधिनियम 1988 के अन्तर्गत दंडनीय अपराध है ।</br>
+		<br> Intelligent Traffic Management System द्वारा पहचान की है कि आप / आपके ड्राइवर द्वारा वाहन नंबर MP04MV2457
+		को चलाते हुए, निम्न स्थान / दिनांक / समय पर यातायात के नियमों का उल्लंघन किया गया है। जो निम्न प्रकार से मोटर
+		यान अधिनियम 1988 के अन्तर्गत दंडनीय अपराध है ।</br>
 		<table>
 			<thead>
 				<tr>
@@ -111,7 +135,7 @@ width: 100%;
 					<td>
 						<%= data.ChallanNo %>
 					</td>
-				  
+
 					<td>
 						<%= data.LPNumber %>
 					</td>
@@ -131,20 +155,33 @@ width: 100%;
 			<img src="/images/nohelmet.png" alt="Signature">
 		</div>
 		<h3>नियमो का उल्लंघन :-</h3>
-		<p>&#x2611; 1. No-Helmetधारा&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;129/194 (D)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;शमन शुल्क 300.0 रूपये</p>
+		<p>&#x2611; 1. No-Helmetधारा&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;129/194
+			(D)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;शमन शुल्क 300.0 रूपये</p>
 		<br>
-		
-		<p>इस हेतु आप शमन शुल्क 300 रुपय एम.पी आनलाइन के माध्यम से एम.पी आनलाइन पोर्टल (https://www.mponline.gov.in/portal/Services/eChallan/Home.aspx) में चालान देखने के लिए एवम चालान जमा करने के लिए एम.पी आनलाइन रजिस्टर KIOSK में 15 दिवस के अंदर शमन शुल्क जमा करें एवं रसीद प्राप्त करें अन्यथा आपके विरुद्ध अग्रिम वैधानिक / कानूनी कार्यवाही की जाएगी ।</p>
+
+		<p>इस हेतु आप शमन शुल्क 300 रुपय एम.पी आनलाइन के माध्यम से एम.पी आनलाइन पोर्टल
+			(https://www.mponline.gov.in/portal/Services/eChallan/Home.aspx) में चालान देखने के लिए एवम चालान जमा करने
+			के लिए एम.पी आनलाइन रजिस्टर KIOSK में 15 दिवस के अंदर शमन शुल्क जमा करें एवं रसीद प्राप्त करें अन्यथा आपके
+			विरुद्ध अग्रिम वैधानिक / कानूनी कार्यवाही की जाएगी ।</p>
 		<div class="text">
-			<div style="width:400px;height:150px;border:1px solid #001;"><p>&emsp;प्रति,<br>&emsp;<%= data.CustomerName %>
-				<br><br>&emsp; <%= data.Location %><br>
-				<br><br>&emsp;मो : 9551744114</p></div>
-				
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;प्रभारी (Traffic police)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					ITMS-BSCDCL BHOPAL (M.P) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact-0755-2477705</p>
+			<div style="width:400px;height:150px;border:1px solid #001;">
+				<p>&emsp;प्रति,<br>&emsp;<%= data.CustomerName %>
+						<br><br>&emsp; <%= data.Location %><br>
+							<br><br>&emsp;मो : 9551744114</p>
+			</div>
+
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;प्रभारी
+				(Traffic
+				police)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				ITMS-BSCDCL BHOPAL (M.P)
+				<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Contact-0755-2477705
+			</p>
 			<p>Note: This is a computer-generated challan and does not require a physical signature.</p>
 		</div>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+	<script src="/js/print.js"></script>
 </body>
 
 </html>

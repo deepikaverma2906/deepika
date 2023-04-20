@@ -547,7 +547,7 @@ app.get("/challan", (req: any, res: any) => {
 });
 
 
-app.get("/generateChallan", (req: any, res:any) => {
+app.get("/generateChallan", (req: any, res: any) => {
 
   return res.render('generateChallan');
 
@@ -632,7 +632,7 @@ app.get("/noHelmet/:id", async (req: any, res: any) => {
     }
 
 
-    return res.render('tripleRiding', { data });
+    return res.render('noHelmet', { data });
 
 
   } catch (error) {
@@ -694,23 +694,23 @@ app.get(`/generate/challan/:id`, async (req: any, res: any) => {
   const protocol = req.protocol
 
   const log = await AnalyticsLog.findById(id);
-// const challan = await Challan.findOne({AnalyticsId:log?._id});
+  // const challan = await Challan.findOne({AnalyticsId:log?._id});
 
-const challan =  await  Challan.findOne({
-  "AnalyticsId" : { "$in": log?._id  },
-})
-if(challan){
-  const responseData = {
-    message:"Challan already generated",
-  data:{},
-  status:204
-}
- 
-const jsonContent = JSON.stringify(responseData);
-return res.end(jsonContent);
- 
-  // return res.send("challan already generated!!!")
-}
+  const challan = await Challan.findOne({
+    "AnalyticsId": { "$in": log?._id },
+  })
+  if (challan) {
+    const responseData = {
+      message: "Challan already generated",
+      data: {},
+      status: 204
+    }
+
+    const jsonContent = JSON.stringify(responseData);
+    return res.end(jsonContent);
+
+    // return res.send("challan already generated!!!")
+  }
 
   const challanNo = `${log?.timestamp}${log?.EventType}${log?.LPNumber}`
 
@@ -732,22 +732,22 @@ return res.end(jsonContent);
     Snapshotpath: log?.SnapshotURL,
     RLVDImagePath: log?.RLVDImageURL,
     VideoPath: log?.VideoURL
-    
+
   });
 
 
-  
+
   console.log("emit", newLog)
   const insertedLog = await newLog.save();
   socketIO.emit('log_inserted', insertedLog)
   const responseData = {
-    message:"Challan successfully generated",
-  data:insertedLog,
-  status:201
-}
- 
-const jsonContent = JSON.stringify(responseData);
-return res.end(jsonContent);
+    message: "Challan successfully generated",
+    data: insertedLog,
+    status: 201
+  }
+
+  const jsonContent = JSON.stringify(responseData);
+  return res.end(jsonContent);
   // return res.status(201).json(insertedLog)
   // .send({message: "Challan Successfully Generated!!!"});;
 });

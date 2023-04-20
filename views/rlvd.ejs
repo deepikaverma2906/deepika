@@ -13,7 +13,7 @@
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 30px auto;
             padding: 20px;
             border: 1px solid #ccc;
         }
@@ -43,16 +43,18 @@
         .amount {
             text-align: right;
         }
+
         .signature {
 
-text-align: left;
-}
+            text-align: left;
+        }
 
 
 
-.signature img {
-width: 100%;
-}
+        .signature img {
+            width: 100%;
+        }
+
         /* .signature {
             margin-top: 40px;
             text-align: center;
@@ -70,19 +72,37 @@ width: 100%;
             text-align: center;
             color: #999;
         }
+
         .imgs {
-    margin-right: 10px;
-    float: left;
-}
-.logoImg{
-    text-align: center;
-}
-.logoImg img{
-    width: 20%;
-}
-.notice{
-    text-align: center;
-}
+            margin-right: 10px;
+            float: left;
+        }
+
+        .logoImg {
+            text-align: center;
+        }
+
+        .logoImg img {
+            width: 20%;
+        }
+
+        .notice {
+            text-align: center;
+        }
+
+        .saveIcon {
+            text-align: right;
+        }
+
+        .saveIcon button {
+            font-size: 16px;
+            /* box-shadow: none; */
+            padding: 7px 28px;
+            color: #fff;
+            background-color: #275ba8;
+            cursor: pointer;
+
+        }
     </style>
 
 </head>
@@ -98,13 +118,16 @@ width: 100%;
 
         <body>
             <div class="container">
-                <h1>intelligent traffic management system (itms)</h1>
-                <div class="logoImg">
-                <img src="/images/mp-logo.png"  alt="Paris">
+                <div class="saveIcon">
+                    <button id="printButton" onclick="print()">Save</button>
                 </div>
-                   
+                <h1>Intelligent Traffic Management System (ITMS)</h1>
+                <div class="logoImg">
+                    <img src="/images/mp-logo.png" alt="logo">
+                </div>
+
                 <div class="notice">
-                <h2>नोटिस</h2>
+                    <h2>नोटिस</h2>
                 </div>
                 <p1>सर/मैडम,</p1>
                 <br> Intelligent Traffic Management System द्वारा पहचान की है कि आप / आपके ड्राइवर द्वारा वाहन नंबर
@@ -127,7 +150,7 @@ width: 100%;
                             <td>
                                 <%= data.ChallanNo %>
                             </td>
-                          
+
                             <td>
                                 <%= data.LPNumber %>
                             </td>
@@ -149,7 +172,7 @@ width: 100%;
                         <div class="imgs">
                             <img src="/images/rlvd1.jpeg">
                         </div>
-                        
+
                     </div>
                     <div class="col-md-6">
                         <img src="/images/rlvd2.jpeg">
@@ -190,9 +213,9 @@ width: 100%;
                     <td>
                         <div class="rectangle">
                             प्रति ,<br>
-                            &emsp;&emsp;&emsp;&emsp;  <%= data.CustomerName %><br>
-                            &emsp;&emsp;&emsp;&emsp; <%= data.Location %><br>
-                            &emsp;&emsp;&emsp;&emsp; मो : 9893079497
+                            &emsp;&emsp;&emsp;&emsp; <%= data.CustomerName %><br>
+                                &emsp;&emsp;&emsp;&emsp; <%= data.Location %><br>
+                                    &emsp;&emsp;&emsp;&emsp; मो : 9893079497
                     </td>
                     <!-- <td>MP04HA6313</td>
       <td>Dec 10, 2022
@@ -216,7 +239,11 @@ width: 100%;
 
 
             </div>
-          
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+            <script src="/js/print.js"></script>
         </body>
 
 </html>

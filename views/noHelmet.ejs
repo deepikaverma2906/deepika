@@ -3,7 +3,7 @@
 
 <head>
 	<title>intelligent traffic management system (itms)</title>
-	<h2></h2>
+
 	<style>
 		body {
 			font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
 
 		.container {
 			max-width: 800px;
-			margin: 0 auto;
+			margin: 30px auto;
 			padding: 20px;
 			border: 1px solid #ccc;
 		}
@@ -52,7 +52,7 @@
 			text-align: left;
 		}
 
-	
+
 
 		.signature img {
 			width: 100%;
@@ -71,15 +71,44 @@
 			margin-right: auto;
 			width: 20%;
 		}
+		.logoImg {
+			text-align: center;
+		}
+
+		.logoImg img {
+			width: 20%;
+		}
+		.notice {
+			text-align: center;
+		}
+		.saveIcon {
+			text-align: right;
+			
+		}
+
+		.saveIcon button {
+			font-size: 16px;
+			/* box-shadow: none; */
+			padding: 7px 28px;
+			color: #fff;
+			background-color: #275ba8;
+			cursor: pointer;
+		}
 	</style>
 </head>
 
 <body>
 	<div class="container">
-		<h1>intelligent traffic management system (itms)</h1>
-		<img src="/images/mp-logo.png" width="50" height="100" alt="Paris" class="center">
-
+		<div class="saveIcon">
+			<button id="printButton" onclick="print()">Save</button>
+		</div>
+		<h1>Intelligent Traffic Management System (ITMS)</h1>
+		<div class="logoImg">
+		<img src="/images/mp-logo.png"  alt="logo">
+			</div>
+			<div class="notice">
 		<h2>नोटिस</h2>
+		<div class="notice">
 		<p1>सर/मैडम,</p1>
 		<!-- <p> <b>Camera Name</b> : <%= data.ChallanNo %> -->
 		</p>
@@ -153,7 +182,12 @@
 
 		}
 	</script>
-	<%- include('components/scripts'); -%>
+	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+	<script src="/js/print.js"></script>
+	<!-- <%- include('components/scripts'); -%> -->
 </body>
 
 </html>
