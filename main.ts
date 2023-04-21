@@ -507,7 +507,7 @@ app.get("/view/challan", async (req: any, res: any) => {
   console.log("challan")
   const { id } = req.params;
   const ipPort = req.get('host');
-  const protocol = req.protoc
+  const protocol = req.protocol;
 
   const perPage = req.query.perPage
   const page = req.query.page
