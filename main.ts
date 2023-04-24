@@ -514,6 +514,11 @@ app.get("/view/challan", async (req: any, res: any) => {
 
   console.log("perPage", perPage, "page ", page)
 
+  const totalCount = await Challan.find().sort({ "timestamp": -1 }).count()
+  
+  console.log("total count  ", totalCount)
+  // const totalCount = await Challan.find().sort({ "timestamp": -1 }).count()
+
 
   const data = await Challan.find().sort({ "timestamp": -1 })
     .skip((perPage * page) - perPage)
@@ -529,8 +534,8 @@ app.get("/view/challan", async (req: any, res: any) => {
 
     });
   }
-  console.log("data ", data)
-  return res.json(data);
+  console.log("data ", data, {TotalCount: totalCount, Limit:perPage, page:page})
+  return res.json({TotalCount: totalCount, Limit:perPage, page:page, data:data});
   //  return res.sendFile(path.join(__dirname, "search"));
   // return res.render('challan');
 });
